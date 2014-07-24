@@ -10,22 +10,26 @@ urlpatterns = patterns('',
     #),
 
     url(r'^list$',
-        views.KeyList.as_view(),
+        permission_required('keys.read_key')
+        (views.KeyList.as_view()),
         name = 'list'
     ),
 
     url(r'^$',
-        views.upload,
+        permission_required('keys.create_key')
+        (views.upload),
         name = 'upload'
     ),
 
     url(r'^product/add$',
-        views.ProductAdd.as_view(),
+        permission_required('keys.create_product')
+        (views.ProductAdd.as_view()),
         name = 'product-add'
     ),
 
     url(r'^sku/add$',
-        views.SKUAdd.as_view(),
+        permission_required('keys.create_sku')
+        (views.SKUAdd.as_view()),
         name = 'sku-add'
     ),
 )

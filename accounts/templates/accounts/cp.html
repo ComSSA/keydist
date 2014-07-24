@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block site_title %}Control Panel{% endblock %}
+{% block body_title %}Control Panel{% endblock %}
+
+{% block content %}
+<h2>Log Out</h2>
+<a class="btn btn-primary" href="{% url 'accounts:logout' %}">Log out</a>
+
+<h2>Change Password</h2>
+<form action="{% url 'accounts:change-password' %}" method="post" class="form-inline">
+	{% csrf_token %}
+	{% bootstrap_form change_password_form layout='inline' %}
+	{% buttons %}
+		{% bootstrap_button 'Change Password' button_type='submit' %}
+	{% endbuttons %}
+</form>
+
+<h2>IP Address</h2>
+<p>You are connecting from <b>{{ ip }}</b>.</p>
+<p>You are <b>not</b> accessing keydist through our caching proxy.</p>
+
+{% endblock %}

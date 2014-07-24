@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block site_title %}Delete {{ object }}{% endblock %}
+{% block body_title %}Delete <b>{{ object }}</b>{% endblock %}
+
+{% block content %}
+<div class="well text-center">
+	<h2>Are you sure you want to delete {{ object }}?</h2>
+	<form method="post">
+		{% csrf_token %}
+		{% bootstrap_button 'Do it.' button_type="submit" button_class="btn-danger btn-lg" %}
+	</form>
+</div>
+{% endblock %}

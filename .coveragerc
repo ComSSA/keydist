@@ -1,0 +1,2 @@
+[run]
+omit = *migrations*, *__init__*, **/urls.py, **/tests.py, **/wsgi.py

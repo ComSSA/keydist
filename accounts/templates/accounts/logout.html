@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block site_title %} Log Out {% endblock %}
+{% block body_title %} Log out <b>of your keydist account</b> {% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 well">
+			<h1 class="text-center">Are you sure you want to log out?</h1>
+			<form method="post">
+				{% csrf_token %}
+				<div class="text-center">
+					<input type="submit" class="btn btn-lg btn-danger" value="Yep!" />
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

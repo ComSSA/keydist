@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load name %}
+
+{% block site_title %}
+	{% if object %}
+		Edit
+	{% else %}
+		Add
+	{% endif %}
+	{{ view|model_name }}
+{% endblock %}
+{% block body_title %}<b>
+	{% if object %}
+		Edit
+	{% else %}
+		Add
+	{% endif %}
+	</b> {{ view|model_name }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<form action="" method="post" class="form form-horizontal">
+		{% csrf_token %}
+		{% bootstrap_form form layout="horizontal" %}
+		{% buttons %}
+			<div class="col-md-offset-2">
+				{% with view|model_name as model_name %}
+					{% if object %}
+						{% with "Update "|add:model_name as edit_text %}
+							{% bootstrap_button edit_text button_type="submit" %}
+						{% endwith %}
+						{% with "Delete "|add:model_name as delete_text %}
+							{% bootstrap_button delete_text button_type="button" button_class="btn-danger" %}
+						{% endwith %}
+					{% else %}
+						{% with "Add "|add:model_name as add_text %}
+							{% bootstrap_button add_text button_type="submit" %}
+						{% endwith %}
+					{% endif %}
+				{% endwith %}
+				{% bootstrap_button "Clear" button_type="reset" %}
+				{% if object %}
+
+				{% endif %}
+			</div>		
+		{% endbuttons %}
+	</form>
+</div>
+{% endblock %}

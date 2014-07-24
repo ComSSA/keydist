@@ -1,0 +1,111 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block site_title %}Example{% endblock %} // keydist</title>
+
+    {% bootstrap_css %}
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link href='//fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+
+    <link rel="icon" type="image/png" href="{% static 'img/comssa_logo_128.png' %}" />
+
+    <!-- Page-specific CSS -->
+    {% block custom_css %}
+    {% endblock %}
+</head>
+<body>
+<div id="wrap">
+    <div class="container">
+        <nav id="navbar" class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'home' %}">
+                        <span id="brand_text">keydist</span>
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        {% if user.is_staff %}
+                            <li><a href="{% url 'accounts:admin' %}">Admin</a></li>
+                        {% endif %}
+                    </ul>
+                    {% if user.is_authenticated %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a>{{ user.first_name }}</a>
+                            </li>
+                            <li>
+                                <a class="glyphicon glyphicon-cog" href="{% url 'accounts:cp' %}"></a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <form method="post" action="{% url 'accounts:login' %}" class="navbar-form navbar-right">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" name="email" placeholder="Email Address" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" placeholder="Password" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-success">Sign in</button>
+                        </form>
+                    {% endif %}
+                </div><!--/.nav-collapse -->
+            </div><!--/.container-fluid -->
+        </nav>
+    </div>
+    
+    <div class="container">
+
+        <div class="page-header">
+            <h1>{% block body_title %}Example{% endblock %}</h1>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+            <hr />
+        {% endif %}
+        {% block content %}
+            <p>This needs to be changed.</p>
+        {% endblock %}
+    </div>
+    <div id="push"></div>
+</div>
+
+    <div id="footer">
+        <div class="container" onmouseover="showCredits();" onmouseout="hideCredits();">
+            <p id="footer_credits" class="text-muted credit text-center">
+                keydist &copy; 2014 <a href="https://comssa.org.au">ComSSA</a>. 
+                Made by <a href="http://github.com/kyerussell">Kye Russell</a>. 
+                <a href="https://github.com/comssa/keydist">Available on GitHub</a>.
+            </p>
+        </div>
+    </div>
+
+    <script src="{% bootstrap_jquery_url %}"></script>
+    {% bootstrap_javascript %}
+
+    <!-- Page-specific Javascript -->
+    {% block custom_js %}
+    {% endblock %}
+</body>
+</html>

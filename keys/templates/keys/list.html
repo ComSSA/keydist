@@ -1,0 +1,46 @@
+{% extends "generic_list.html" %}
+
+{% load bootstrap3 %}
+{% load nicebool %}
+{% load staticfiles %}
+
+{% block custom_buttons_after %}
+	<button class="btn btn-default" onclick="loadFile('#id_keyfile');">{% bootstrap_icon "cloud-upload" %} Import XML file</button>
+
+	<div class="hidden">
+		<form id="key-form" action="{% url 'keys:upload' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input id="id_keyfile" name="keyfile" accept="text/xml" onchange="submitFile('#key-form');" type="file" />
+			<input type="submit" class="btn btn-default" />
+		</form>
+	</div>
+{% endblock %}
+
+{% block list %}
+<thead>
+	<th>Key</th>
+	<th>Product</th>
+	<th>SKU</th>
+	<th>Allocated to</th>
+	<th>Allocated by</th>
+	<th>Imported by</th>
+</thead>
+<tbody>
+	{% for key in object_list %}
+		<tr>
+			<td>{{ key.key }}</td>
+			<td><a href="{{ key.sku.product }}">{{ key.sku.product }}</td>
+			<td><a href="{{ key.sku.get_absolute_url }}">{{ key.sku }}</a></td>
+			<td><a href="{{ key.allocated_to.get_absolute_url }}">{{ key.allocated_to }}</td>
+			<td><a href="{{ key.allocated_by.get_absolute_url }}">{{ key.allocated_by }}</td>
+			<td><a href="{{ key.imported_by.get_absolute_url }}">{{ key.imported_by }}</td>
+		</tr>
+	{% endfor %}
+</tbody>
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'js/Upload.js' %}">
+
+</script>
+{% endblock %}

@@ -47,19 +47,29 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'keydist.urls'
 WSGI_APPLICATION = 'keydist.wsgi.application'
 
-# Try to config Heroku database (if we're on Heroku)
-import dj_database_url
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config()
 
-if len(DATABASES['default']) == 0:
-    # We aren't on Heroku, configure local db.
+DBENV = os.environ.get('KEYDIST_DB_ENV')
+
+if DBENV == 'dev':
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+elif DBENV == 'deploy':
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('KEYDIST_DB_BACKEND'),
+            'NAME': os.environ.get('KEYDIST_DB_NAME'),
+            'USER': os.environ.get('KEYDIST_DB_USER'),
+            'PASSWORD': os.environ.get('KEYDIST_DB_PASSWORD'),
+            'HOST': os.environ.get('KEYDIST_DB_HOST'),
+            'PORT': os.environ.get('KEYDIST_DB_PORT'),
+        }
+    }
+else:
+    raise Exception('Invalid database environment: %s' % DBENV)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

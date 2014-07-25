@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from django.utils.html import escape
-from kanri_template_tags.templatetags.nicebool import nicebool
+from tags.templatetags.nicebool import nicebool
 from django.template.defaultfilters import default
 
 register = template.Library()

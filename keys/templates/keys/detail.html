@@ -1,0 +1,30 @@
+{% extends "generic_detail.html" %}
+{% load display_pair %}
+{% load nicebool %}
+{% load bootstrap3 %}
+
+{% block custom_buttons_before %}
+	{% if object.allocated_to %}
+		<a class="btn btn-default">
+			{% bootstrap_icon 'envelope' %} Email key to {{ object.allocated_to }}
+		</a>
+	{% endif %}
+{% endblock %}
+
+{% block detail %}
+	<h2>General Information</h2>
+	{{ object.key|display_pair:'Key' }}
+	{{ object.sku.product|display_pair:"Product" }}
+	{{ object.sku|display_pair:"SKU" }}
+
+	<h2>Allocation</h2>
+	{{ object.allocated_to|display_pair:"Allocated to" }}
+	
+	<h2>Audit Trail</h2>
+	{{ object.allocated_at|date:"N jS 'y - g:i a"|display_pair:"Allocated at" }}
+	{{ object.allocated_by|display_pair:"Allocated by" }}
+	{{ object.imported_at|date:"N jS 'y - g:i a"|display_pair:"Imported at" }}
+	{{ object.imported_by|display_pair:"Imported by" }}
+
+
+{% endblock %}

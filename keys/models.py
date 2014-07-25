@@ -21,7 +21,7 @@ class SKU(models.Model):
 	product = models.ForeignKey(Product)
 
 	def __unicode__(self):
-		return self.name
+		return "%s / %s" % (self.product, self.name)
 
 	class Meta():
 		verbose_name = "SKU"
@@ -60,8 +60,15 @@ class Key(models.Model):
 	imported_by = models.ForeignKey(get_user_model(),
 		related_name = 'imported_by'
 	)
+
+	imported_at = models.DateTimeField(
+		help_text = "The date and time at which the key was imported."
+	)
 	
 	sku = models.ForeignKey(SKU)
+
+	def __unicode__(self):
+		return "Key for %s" % self.sku
 
 	class Meta():
 		unique_together = ['key', 'sku']

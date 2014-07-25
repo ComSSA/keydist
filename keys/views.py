@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from keys.models import *
 from keydist.views import *
 from django.contrib import messages
+from django.utils import timezone
 import xml.etree.ElementTree as ET
 import forms
 
@@ -31,6 +32,7 @@ def upload(request):
                         key = key.text,
                         key_type = key.attrib['Type'],
                         imported_by = request.user,
+                        imported_at = timezone.now(),
                         sku = sku
                     )
                     k.save()
@@ -49,3 +51,41 @@ class SKUAdd(KeydistCreateView):
 
 class ProductAdd(KeydistCreateView):
     model = Product
+
+def allocate(request):
+    if request.method == 'POST':
+        form = forms.AllocateForm(request.POST)
+        if form.is_valid():
+            # Check if a user has already been allocated a key.
+            old_keys = Key.objects.filter(
+                sku = form.cleaned_data['SKU'],
+                allocated_to = form.cleaned_data['user']
+            )
+
+            if old_keys:
+                messages.error(request, "The user has already been allocated a key for this SKU. You are now being shown the existing allocation.")
+                return "FIXME"
+            
+            candidates = Key.objects.filter(
+                sku = form.cleaned_data['SKU'],
+                allocated_to = None
+            )
+
+            if not candidates:
+                messages.error(request, "There are no unallocated keys left for this SKU.")
+            else:
+                key = candidates[0]
+                key.allocated_to = form.cleaned_data['user']
+                key.allocated_at = timezone.now()
+                key.allocated_by = request.user
+                key.save()
+
+                messages.success(request, "A key has been allocated to the user.")
+
+    return render(request, 'keys/allocate.html', {
+        'form': forms.AllocateForm()
+    })
+
+class KeyDetail(KeydistDetailView):
+    model = Key
+    template_name = 'keys/detail.html'

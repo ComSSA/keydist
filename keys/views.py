@@ -16,7 +16,7 @@ def upload(request):
             root = ET.fromstring(request.FILES['keyfile'].read())[0]
             # Find the SKU listed in the file.
             try:
-                sku = SKU.objects.get(name = root.attrib['Name'])
+                sku = SKU.objects.get(name = root.attrib['Name'].strip())
             except:
                 messages.error(request, 'These keys are for a SKU that does not exist')
                 return redirect('keys:product-list')

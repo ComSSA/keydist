@@ -4,9 +4,12 @@
 {% load nicebool %}
 {% load staticfiles %}
 
+{% block add_url %}{% url 'keys:product-add' %}{% endblock %}
+
 {% block custom_buttons_after %}
 	<button class="btn btn-default" onclick="loadFile('#id_keyfile');">{% bootstrap_icon "cloud-upload" %} Import XML file</button>
-
+	<a href="{% url 'keys:sku-add' %}" class="btn btn-default">{% bootstrap_icon 'plus' %} Add SKU</a>
+	<a href="{% url 'keys:allocate' %}" class="btn btn-default">{% bootstrap_icon 'user' %} Allocate</a>
 	<div class="hidden">
 		<form id="key-form" action="{% url 'keys:upload' %}" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
@@ -18,22 +21,18 @@
 
 {% block list %}
 <thead>
-	<th>Key</th>
 	<th>Product</th>
-	<th>SKU</th>
-	<th>Allocated to</th>
-	<th>Allocated by</th>
-	<th>Imported by</th>
+	<th>SKUs</th>
+	<th>Keys</th>
+	<th>Remaining</th>
 </thead>
 <tbody>
-	{% for key in object_list %}
+	{% for product in object_list %}
 		<tr>
-			<td>{{ key.key }}</td>
-			<td><a href="{{ key.sku.product }}">{{ key.sku.product }}</td>
-			<td><a href="{{ key.sku.get_absolute_url }}">{{ key.sku }}</a></td>
-			<td><a href="{{ key.allocated_to.get_absolute_url }}">{{ key.allocated_to }}</td>
-			<td><a href="{{ key.allocated_by.get_absolute_url }}">{{ key.allocated_by }}</td>
-			<td><a href="{{ key.imported_by.get_absolute_url }}">{{ key.imported_by }}</td>
+			<td><a href="{{ product.get_absolute_url }}">{{ product }}</td>
+			<td>{{ product.sku_set.all|join:', ' }}</td>
+			<td>{{ product.total_keys }}</td>
+			<td>{{ product.total_unallocated_keys }}</td>
 		</tr>
 	{% endfor %}
 </tbody>

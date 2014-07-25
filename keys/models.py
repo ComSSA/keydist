@@ -1,5 +1,7 @@
+from __future__ import division
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse_lazy
 
 class Product(models.Model):
 	name = models.CharField(
@@ -8,6 +10,25 @@ class Product(models.Model):
 		help_text = 'The name of the product.'
 	)
 
+	@property
+	def total_keys(self):
+		total = 0
+		for sku in self.sku_set.all():
+			total += sku.key_set.count()
+
+		return total
+
+	@property
+	def total_unallocated_keys(self):
+		total = 0
+		for sku in self.sku_set.all():
+			total += sku.key_set.filter(allocated_to = None).count()
+
+		return total
+
+	def get_absolute_url(self):
+		return reverse_lazy('keys:product-detail', args = [self.id])
+		
 	def __unicode__(self):
 		return self.name
 
@@ -21,8 +42,18 @@ class SKU(models.Model):
 	product = models.ForeignKey(Product)
 
 	def __unicode__(self):
-		return "%s / %s" % (self.product, self.name)
+		return self.name
 
+	@property
+	def unallocated_keys(self):
+	    return self.key_set.filter(allocated_to = None)
+
+	@property
+	def nearing_exhaustion(self):
+		if self.key_set.all().count() != 0:
+			return (self.key_set.exclude(allocated_to = None).count() / self.key_set.all().count()) >= 0.90
+		else:
+			return True
 	class Meta():
 		verbose_name = "SKU"
 
@@ -67,8 +98,11 @@ class Key(models.Model):
 	
 	sku = models.ForeignKey(SKU)
 
+	def get_absolute_url(self):
+		return reverse_lazy('keys:detail', args = [self.id])
+
 	def __unicode__(self):
-		return "Key for %s" % self.sku
+		return "Key for %s" % self.sku.name
 
 	class Meta():
 		unique_together = ['key', 'sku']

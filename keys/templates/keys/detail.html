@@ -3,11 +3,22 @@
 {% load nicebool %}
 {% load bootstrap3 %}
 
+{% block noedit %}{% endblock %}
+{% block nodelete %}{% endblock %}
+{% block nolist %}{% endblock %}
+
 {% block custom_buttons_before %}
 	{% if object.allocated_to %}
-		<a class="btn btn-default">
+		<form id="email-form" class="hidden" method="post" action="{% url 'keys:email' object.id %}">
+			{% csrf_token %}
+			<button type='submit' class="btn btn-default">
+				{% bootstrap_icon 'envelope' %} Email key to {{ object.allocated_to }}
+			</button>
+		</form>
+ 
+		<button class="btn btn-default" onclick="$('#email-form').submit();">
 			{% bootstrap_icon 'envelope' %} Email key to {{ object.allocated_to }}
-		</a>
+		</button>
 	{% endif %}
 {% endblock %}
 

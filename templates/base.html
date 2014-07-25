@@ -38,11 +38,14 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="{% url 'home' %}">
-                        <span id="brand_text">keydist</span>
+                        <span id="brand_text">keydist|alpha</span>
                     </a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
+                        {% if perms.keys.read_key %}
+                            <li><a href="{% url 'keys:product-list' %}">Keys</a></li>
+                        {% endif %}
                         {% if user.is_staff %}
                             <li><a href="{% url 'accounts:admin' %}">Admin</a></li>
                         {% endif %}

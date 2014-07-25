@@ -1,0 +1,25 @@
+{% extends 'generic_panel.html' %}
+
+{% block panel_title %}Exhausted SKUs{% endblock %}
+
+{% block panel_content %}
+	<p>The following SKUs have been exhausted or are nearing exhaustion:</p>
+	<table class="table table-condensed" >
+		<thead>
+			<th>SKU</th>
+			<th>Total Keys</th>
+			<th>Keys Left</th>
+		</thead>
+		<tbody>
+			{% for sku in skus %}
+				{% if sku.nearing_exhaustion %}
+					<tr>
+						<td>{{ sku }}</td>
+						<td>{{ sku.key_set.count }}</td>
+						<td>{{ sku.unallocated_keys.count }}</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

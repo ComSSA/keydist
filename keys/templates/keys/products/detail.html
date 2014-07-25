@@ -1,0 +1,22 @@
+{% extends "generic_detail.html" %}
+{% load display_pair %}
+{% load nicebool %}
+{% load bootstrap3 %}
+
+{% block noedit %}{% endblock %}
+{% block delete_url %}{% url 'keys:product-delete' object.id %}{% endblock %}
+{% block list_url %}{% url 'keys:product-list' %}{% endblock %}
+
+
+{% block detail %}
+	<h2>General Information</h2>
+	{{ object.name|display_pair:"Name" }}
+
+	<h2>SKUs</h2>	
+	{% for sku in object.sku_set.all %}
+		<h3>{{ sku.name }}</h3>
+		{{ sku.key_set.count|display_pair:"Keys" }}
+		{{ sku.unallocated_keys.count|display_pair:"Unallocated" }}
+		{{ sku.nearing_exhaustion|display_pair:"Nearing Exhaustion" }}
+	{% endfor %}
+{% endblock %}

@@ -9,12 +9,6 @@ urlpatterns = patterns('',
     #	name = 'index'
     #),
 
-    url(r'^list$',
-        permission_required('keys.read_key')
-        (views.KeyList.as_view()),
-        name = 'list'
-    ),
-
     url(r'^(?P<pk>\d+)$',
         permission_required('keys.read_key')
         (views.KeyDetail.as_view()),

@@ -19,7 +19,7 @@ def upload(request):
                 sku = SKU.objects.get(name = root.attrib['Name'])
             except:
                 messages.error(request, 'These keys are for a SKU that does not exist')
-                return redirect('keys:list')
+                return redirect('keys:product-list')
 
             # Print the keys
             for key in root:

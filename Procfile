@@ -1,1 +1,1 @@
-web: gunicorn keydist.wsgi
+web: gunicorn keydist.wsgi --log-file -

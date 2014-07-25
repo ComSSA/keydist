@@ -5,6 +5,17 @@
 {% block body_title %}Administration Portal{% endblock %}
 
 {% block content %}
+<h2>Create User</h2>
+<p>Create a user to allocate keys to. You can also make the user an administrator, which'll
+allow them to import and allocate keys themselves.</p>
+<form method="post" action="{% url 'accounts:admin-createuser' %}"class="form form-inline">
+	{% csrf_token %}
+	{% bootstrap_form create_user_form layout='inline' %}
+	{% buttons %}
+		{% bootstrap_button 'Create User' button_type='submit' %}
+	{% endbuttons %}
+</form>
+
 <h2>Reset Password</h2>
 <p>Reset a user's password and email it to them.</p>
 <form action="{% url 'accounts:admin-reset-password' %}" method="post" class="form-inline">

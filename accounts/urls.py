@@ -22,6 +22,12 @@ urlpatterns = patterns('',
     	name = 'admin'
     ),
 
+    url(r'^admin/createuser$',
+        permission_required('accounts.create_kanriuser')
+        (views.admin_create_user),
+        name = 'admin-createuser'
+    ),
+    
     url(r'^admin/pass$',
         permission_required('accounts.change_user_password')
         (views.change_password_admin),

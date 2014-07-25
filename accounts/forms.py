@@ -3,6 +3,23 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.models import Group
 import lockout
 
+class CreateUserForm(forms.Form):
+    curtin_id = forms.CharField(
+        max_length = 60,
+    )
+
+    first_name = forms.CharField(
+        max_length = 30
+    )
+
+    last_name = forms.CharField(
+        max_length = 30
+    )
+
+    admin = forms.BooleanField(
+        required = False
+    )
+
 class LoginForm(forms.Form):
     error_css_class = ""
     curtin_id = forms.CharField(

@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group, Permission
 from django.core.mail import send_mail
 from textwrap import dedent
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 
 
 def login(request):
@@ -36,9 +37,11 @@ def logout(request):
 def admin(request):
     change_password_form = AdminChangePasswordForm()
     reset_password_form = UserSelectionForm()
+    create_user_form = CreateUserForm()
     return render(request, 'accounts/admin.html', {
         'password_form': change_password_form,
         'reset_password_form': reset_password_form,
+        'create_user_form': create_user_form
         })
 
 def sync(request):
@@ -103,6 +106,56 @@ def admin_reset_password(request):
     else:
         return redirect('accounts:admin')
 
+def admin_create_user(request):
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            try:
+                if form.cleaned_data['admin']:
+                    pw = get_user_model().objects.make_random_password()
+                    u = get_user_model().objects.create_superuser(
+                        form.cleaned_data['curtin_id'],
+                        form.cleaned_data['first_name'], 
+                        form.cleaned_data['last_name'],
+                        pw
+                    )
+
+                    u.save()
+
+                    message = """\
+                            Dear %s,
+        
+                            %s has made you an administrator on keydist.
+    
+                            Your password has been set to: '%s'.
+    
+                            --
+                            keydist
+                            http://keydist.comssa.org.au/
+                            """ % (u.first_name, request.user.first_name, pw)
+        
+                    send_mail(
+                        subject = 'Welcome to keydist',
+                        message = dedent(message),
+                        from_email = 'keydist@comssa.org.au',
+                        recipient_list = (u.email,),
+                    )
+                    messages.success(request, 'The user has been created and a password has been emailed to them.')
+                else:
+                    u = get_user_model().objects.create_user(
+                        form.cleaned_data['curtin_id'],
+                        form.cleaned_data['first_name'], 
+                        form.cleaned_data['last_name']
+                    )
+                    u.save()
+                    messages.success(request, 'User created.')
+            except ValidationError as e:
+                messages.error(request, 'Error creating user: %s' % e)
+                return redirect('accounts:admin')
+        else:
+            messages.error(request, "Error.")
+    
+    return redirect('accounts:admin')
 
 def cp(request):
     try:

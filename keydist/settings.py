@@ -13,6 +13,7 @@ TEMPLATE_DEBUG = DEBUG
 # Application definition
 INSTALLED_APPS = (
     # Django applications
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

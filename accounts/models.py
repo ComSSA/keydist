@@ -89,6 +89,10 @@ class KeydistUser(ValidateModelMixin, AbstractBaseUser, PermissionsMixin):
     def short_name(self):
         return "%s %s" % (self.first_name, self.last_name[0])
 
+    # Compatibility with Django admin
+    def get_short_name(self):
+        return self.short_name
+    
     class Meta():
         permissions = {
             ('see_admin', "User can see the admin page"),

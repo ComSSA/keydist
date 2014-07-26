@@ -32,6 +32,9 @@ class Product(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	class Meta():
+        ordering = ['name']
+
 class SKU(models.Model):
 	name = models.CharField(
 		max_length = 75,
@@ -56,6 +59,7 @@ class SKU(models.Model):
 			return True
 	class Meta():
 		verbose_name = "SKU"
+        ordering = ['name']
 
 class Key(models.Model):
 	key = models.CharField(

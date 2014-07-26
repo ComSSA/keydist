@@ -35,6 +35,12 @@
 			<td>{{ product.total_unallocated_keys }}</td>
 		</tr>
 	{% endfor %}
+	<tr>
+		<td><strong>Total</strong></td>
+		<td>-</td>
+		<td>{{ total_keys }}</td>
+		<td>{{ total_unallocated_keys }}</td>
+	</tr>
 </tbody>
 {% endblock %}
 

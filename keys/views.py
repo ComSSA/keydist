@@ -61,6 +61,12 @@ class ProductList(KeydistListView):
     model = Product
     template_name = 'keys/products/list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ProductList, self).get_context_data(**kwargs)
+        context['total_keys'] = Key.objects.count()
+        context['total_unallocated_keys'] = Key.objects.filter(allocated_to = None).count()
+        return context
+
 class ProductDelete(KeydistDeleteView):
     model = Product
     success_url = reverse_lazy('keys:product-list')

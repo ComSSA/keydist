@@ -99,7 +99,7 @@ def allocate(request):
                 key.allocated_by = request.user
                 key.save()
 
-                return redirect('key:detail', key.id)
+                return redirect('keys:detail', key.id)
                 messages.success(request, "A key has been allocated to the user.")
 
     return render(request, 'keys/allocate.html', {

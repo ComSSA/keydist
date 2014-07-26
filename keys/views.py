@@ -45,11 +45,6 @@ def upload(request):
 
     return redirect('keys:product-list')
 
-
-class KeyList(KeydistListView):
-    model = Key
-    template_name = 'keys/list.html'
-
 class SKUAdd(KeydistCreateView):
     model = SKU
     success_url = reverse_lazy('keys:product-list')

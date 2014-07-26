@@ -3,7 +3,8 @@ from keys.models import Product, SKU, Key
 
 class KeyAdmin(admin.ModelAdmin):
 	list_display = ['key', 'sku', 'key_type', 'allocated_to', 'allocated_by', 'allocated_at', 'imported_at']
-
+	search_fields ['key']
+	
 class SKUAdmin(admin.ModelAdmin):
 	list_display = ['name', 'product']
 

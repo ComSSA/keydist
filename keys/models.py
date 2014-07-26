@@ -37,7 +37,7 @@ class Product(models.Model):
 
 class SKU(models.Model):
     name = models.CharField(
-        max_length = 75,
+        max_length = 140,
         unique = True,
         help_text = 'The name of the SKU.'
     )

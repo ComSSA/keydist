@@ -95,8 +95,12 @@ class KeydistUser(ValidateModelMixin, AbstractBaseUser, PermissionsMixin):
         return self.short_name
     
     @property
-    def keys_allocated(self):
+    def keys_allocated_by(self):
         return get_model('keys', 'Key').objects.filter(allocated_by = self)
+    
+    @property
+    def keys_allocated_to(self):
+        return get_model('keys', 'Key').objects.filter(allocated_to = self)
     
     class Meta():
         permissions = {

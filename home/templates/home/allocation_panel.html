@@ -1,6 +1,6 @@
 {% extends 'generic_panel.html' %}
 
-{% block panel_title %}Allocations per User{% endblock %}
+{% block panel_title %}Committee Member Allocation Leaderboard{% endblock %}
 
 {% block panel_content %}
 	<table class="table table-condensed" >
@@ -9,11 +9,13 @@
 			<th>Total Keys Allocated</th>
 		</thead>
 		<tbody>
-			{% for admin in admins %}
-			    <tr>
-			    	<td>{{ admin.full_name }}</td>
-			    	<td>{{ admin.keys_allocated.count }}</td>
-			    </tr>
+			{% for user in users %}
+                {% if user.is_superuser %}
+			        <tr>
+			        	<td>{{ user.full_name }}</td>
+			        	<td>{{ user.keys_allocated_by.count }}</td>
+			        </tr>
+                {% endif %}
 			{% endfor %}
 		</tbody>
 	</table>

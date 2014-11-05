@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core import validators
 from keydist.ValidateModelMixin import ValidateModelMixin
+from django.db.models.loading import get_model
 
 class KeydistUserManager(BaseUserManager):
     def create_user(self, curtin_id, first_name, last_name, password = None):
@@ -92,6 +93,10 @@ class KeydistUser(ValidateModelMixin, AbstractBaseUser, PermissionsMixin):
     # Compatibility with Django admin
     def get_short_name(self):
         return self.short_name
+    
+    @property
+    def keys_allocated(self):
+        return get_model('keys', 'Key').objects.filter(allocated_by = self)
     
     class Meta():
         permissions = {

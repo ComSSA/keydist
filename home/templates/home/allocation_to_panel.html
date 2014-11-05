@@ -1,0 +1,20 @@
+{% extends 'generic_panel.html' %}
+
+{% block panel_title %}Students/Faculty Allocated To{% endblock %}
+
+{% block panel_content %}
+	<table class="table table-condensed" >
+		<thead>
+			<th>Name</th>
+			<th>Total Keys Allocated</th>
+		</thead>
+		<tbody>
+			{% for user in users %}
+			    <tr>
+			    	<td>{{ user.full_name }}</td>
+			    	<td>{{ user.keys_allocated_to.count }}</td>
+			    </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

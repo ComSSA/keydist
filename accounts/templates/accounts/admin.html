@@ -16,6 +16,27 @@ allow them to import and allocate keys themselves.</p>
 	{% endbuttons %}
 </form>
 
+<h2>Add New Admin</h2>
+<p>Allow a user to allocate keys, add products, etc.</p>
+<form action="{% url 'accounts:admin-add-admin' %}" method="post" class="form-inline">
+	{% csrf_token %}
+	{% bootstrap_form add_admin_form layout='inline' %}
+	{% buttons %}
+		{% bootstrap_button 'Add Admin' button_type='submit' %}
+	{% endbuttons %}
+</form>
+
+<h2>Remove Existing Admin</h2>
+<p>Denies a user the ability to allocate keys, add products, etc.</p>
+<form action="{% url 'accounts:admin-remove-admin' %}" method="post" class="form-inline">
+	{% csrf_token %}
+	{% bootstrap_form remove_admin_form layout='inline' %}
+	{% buttons %}
+		{% bootstrap_button 'Remove Admin' button_type='submit' %}
+	{% endbuttons %}
+</form>
+
+
 <h2>Reset Password</h2>
 <p>Reset a user's password and email it to them.</p>
 <form action="{% url 'accounts:admin-reset-password' %}" method="post" class="form-inline">

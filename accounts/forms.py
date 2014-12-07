@@ -16,10 +16,6 @@ class CreateUserForm(forms.Form):
         max_length = 30
     )
 
-    admin = forms.BooleanField(
-        required = False
-    )
-
 class LoginForm(forms.Form):
     error_css_class = ""
     curtin_id = forms.CharField(
@@ -60,6 +56,22 @@ class UserSelectionForm(forms.Form):
             'class': 'col-md-4'
             })
         )
+
+class NonAdminSelectionForm(forms.Form):
+    user = forms.ModelChoiceField(
+        get_user_model().objects.filter(is_superuser = False),
+        widget = forms.Select(attrs = {
+            'class': 'col-md-4'
+            })
+        )
+
+class AdminSelectionForm(forms.Form):
+    user = forms.ModelChoiceField(
+        get_user_model().objects.filter(is_superuser = True),
+        widget = forms.Select(attrs = {
+            'class': 'col-md-4'
+        })
+    )
 
 class AdminChangePasswordForm(forms.Form):
     user = forms.ModelChoiceField(

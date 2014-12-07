@@ -28,6 +28,18 @@ urlpatterns = patterns('',
         name = 'admin-createuser'
     ),
     
+    url(r'^admin/add_admin$',
+        permission_required('accounts.change_kanriuser')
+        (views.admin_add_admin),
+        name = 'admin-add-admin'
+    ),
+    
+    url(r'^admin/remove_admin$',
+        permission_required('accounts.change_kanriuser')
+        (views.admin_remove_admin),
+        name = 'admin-remove-admin'
+    ),
+    
     url(r'^admin/pass$',
         permission_required('accounts.change_user_password')
         (views.change_password_admin),

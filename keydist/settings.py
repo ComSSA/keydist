@@ -3,11 +3,11 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('KEYDIST_SECRET_KEY')
-POSTMARK_API_KEY = os.environ.get('KEYDIST_POSTMARK_KEY')
-POSTMARK_SENDER = os.environ.get('KEYDIST_POSTMARK_SENDER')
+SECRET_KEY = os.environ.get('THEOFFICE_SECRET_KEY')
+POSTMARK_API_KEY = os.environ.get('THEOFFICE_POSTMARK_KEY')
+POSTMARK_SENDER = os.environ.get('THEOFFICE_POSTMARK_SENDER')
 
-DEBUG = os.environ.get('KEYDIST_DEBUG', False) == 'True'
+DEBUG = os.environ.get('THEOFFICE_DEBUG', False) == 'True'
 TEMPLATE_DEBUG = DEBUG
 
 # Application definition
@@ -49,7 +49,7 @@ ROOT_URLCONF = 'keydist.urls'
 WSGI_APPLICATION = 'keydist.wsgi.application'
 
 
-DBENV = os.environ.get('KEYDIST_DB_ENV')
+DBENV = os.environ.get('THEOFFICE_DB_ENV')
 
 if DBENV == 'dev':
     DATABASES = {
@@ -61,12 +61,12 @@ if DBENV == 'dev':
 elif DBENV == 'deploy':
     DATABASES = {
         'default': {
-            'ENGINE': os.environ.get('KEYDIST_DB_BACKEND'),
-            'NAME': os.environ.get('KEYDIST_DB_NAME'),
-            'USER': os.environ.get('KEYDIST_DB_USER'),
-            'PASSWORD': os.environ.get('KEYDIST_DB_PASSWORD'),
-            'HOST': os.environ.get('KEYDIST_DB_HOST'),
-            'PORT': os.environ.get('KEYDIST_DB_PORT'),
+            'ENGINE': os.environ.get('THEOFFICE_DB_BACKEND'),
+            'NAME': os.environ.get('THEOFFICE_DB_NAME'),
+            'USER': os.environ.get('THEOFFICE_DB_USER'),
+            'PASSWORD': os.environ.get('THEOFFICE_DB_PASSWORD'),
+            'HOST': os.environ.get('THEOFFICE_DB_HOST'),
+            'PORT': os.environ.get('THEOFFICE_DB_PORT'),
         }
     }
 else:

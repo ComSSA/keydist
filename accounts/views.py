@@ -88,17 +88,17 @@ def admin_reset_password(request):
 
             message = """Dear %s,
 
-                      Your keydist password has been reset by %s.
+                      Your theoffice password has been reset by %s.
 
                       Your password has been set to: '%s'.
 
                       --
-                      keydist
-                      http://keydist.comssa.org.au/
+                      theoffice
+                      http://theoffice.comssa.org.au/
                       """ % (u.first_name, request.user.first_name, pw)
 
             send_mail(
-                subject = 'keydist Password Reset',
+                subject = 'theoffice Password Reset',
                 message = dedent(message),
                 from_email = 'keydist@comssa.org.au',
                 recipient_list = (u.email,),
@@ -143,17 +143,17 @@ def admin_add_admin(request):
             message = """\
                     Dear %s,
 
-                    %s has made you an administrator on keydist.
+                    %s has made you an administrator on theoffice.
 
                     Your password has been set to: '%s'.
 
                     --
-                    keydist
-                    http://keydist.comssa.org.au/
+                    theoffice
+                    http://theoffice.comssa.org.au/
                     """ % (user.first_name, request.user.first_name, pw)
 
             send_mail(
-                subject = 'Welcome to keydist',
+                subject = 'Welcome to theoffice',
                 message = dedent(message),
                 from_email = 'keydist@comssa.org.au',
                 recipient_list = (user.email,),
@@ -177,15 +177,15 @@ def admin_remove_admin(request):
             message = """\
                     Dear %s,
 
-                    %s has removed you as an administrator on keydist.
+                    %s has removed you as an administrator on theoffice.
 
                     --
-                    keydist
-                    http://keydist.comssa.org.au/
+                    theoffice
+                    http://theoffice.comssa.org.au/
                     """ % (user.first_name, request.user.first_name)
 
             send_mail(
-                subject = 'Welcome to keydist',
+                subject = 'theoffice privilege removal',
                 message = dedent(message),
                 from_email = 'keydist@comssa.org.au',
                 recipient_list = (user.email,),

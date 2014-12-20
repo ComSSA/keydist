@@ -45,19 +45,19 @@ def upload(request):
 
     return redirect('keys:product-list')
 
-class SKUAdd(KeydistCreateView):
+class SKUAdd(TheofficeCreateView):
     model = SKU
     success_url = reverse_lazy('keys:product-list')
 
-class ProductAdd(KeydistCreateView):
+class ProductAdd(TheofficeCreateView):
     model = Product
     success_url = reverse_lazy('keys:product-list')
 
-class ProductDetail(KeydistDetailView):
+class ProductDetail(TheofficeDetailView):
     model = Product
     template_name = 'keys/products/detail.html'
 
-class ProductList(KeydistListView):
+class ProductList(TheofficeListView):
     model = Product
     template_name = 'keys/products/list.html'
 
@@ -67,7 +67,7 @@ class ProductList(KeydistListView):
         context['total_unallocated_keys'] = Key.objects.filter(allocated_to = None).count()
         return context
 
-class ProductDelete(KeydistDeleteView):
+class ProductDelete(TheofficeDeleteView):
     model = Product
     success_url = reverse_lazy('keys:product-list')
 
@@ -140,6 +140,6 @@ def email(request, key_id):
         messages.error(request, "Stop being sneaky...")
     return redirect('keys:detail', key_id)
 
-class KeyDetail(KeydistDetailView):
+class KeyDetail(TheofficeDetailView):
     model = Key
     template_name = 'keys/detail.html'

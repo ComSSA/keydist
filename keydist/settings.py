@@ -25,6 +25,7 @@ INSTALLED_APPS = (
     'home',
     'accounts',
     'keys',
+    'policy',
 
     # Template tags
     'tags',
@@ -32,7 +33,9 @@ INSTALLED_APPS = (
     # Third party applications
     'south',
     'lockout',
-    'bootstrap3'
+    'bootstrap3',
+    'pagedown',
+    'markdown_deux',
 )
 
 MIDDLEWARE_CLASSES = (

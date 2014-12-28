@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block site_title %}Example{% endblock %} // The Office - ComSSA Committee Portal</title>
+    <title>{% block site_title %}Example{% endblock %} // theoffice - ComSSA Committee Portal</title>
 
     {% bootstrap_css %}
     <!--[if lt IE 9]>
@@ -15,15 +15,17 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link href='//fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
-
     <link rel="icon" type="image/png" href="{% static 'img/comssa_logo_128.png' %}" />
 
     <!-- Page-specific CSS -->
     {% block custom_css %}
     {% endblock %}
+
+    {% if form %}
+        {{ form.media }}
+    {% endif %}
+
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
 </head>
 <body>
 <div id="wrap">
@@ -38,13 +40,16 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="{% url 'home:index' %}">
-                        <span id="brand_text">theoffice</span>
+                        <span id="brand_text">the<strong>office</strong></span>
                     </a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         {% if perms.keys.read_key %}
-                            <li><a href="{% url 'keys:product-list' %}">Keys</a></li>
+                            <li><a href="{% url 'keys:product-list' %}">Microsoft Key Distribution</a></li>
+                        {% endif %}
+                        {% if perms.policy.read_policy %}
+                            <li><a href="{% url 'policy:list' %}">Policy Management</a></li>
                         {% endif %}
                         {% if user.is_staff %}
                             <li><a href="{% url 'accounts:admin' %}">Admin</a></li>
@@ -63,7 +68,7 @@
                         <form method="post" action="{% url 'accounts:login' %}" class="navbar-form navbar-right">
                             {% csrf_token %}
                             <div class="form-group">
-                                <input type="text" name="email" placeholder="Email Address" class="form-control">
+                                <input type="text" name="email" placeholder="Curtin ID" class="form-control">
                             </div>
                             <div class="form-group">
                                 <input type="password" name="password" placeholder="Password" class="form-control">
@@ -77,19 +82,20 @@
     </div>
     
     <div class="container">
-
-        <div class="page-header">
-            <h1>{% block body_title %}Example{% endblock %}</h1>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="page-header">
+                <h1>{% block body_title %}Example{% endblock %}</h1>
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+                <hr />
+            {% endif %}
+            {% block content %}
+                <p>This needs to be changed.</p>
+            {% endblock %}
         </div>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-            {% endfor %}
-            <hr />
-        {% endif %}
-        {% block content %}
-            <p>This needs to be changed.</p>
-        {% endblock %}
     </div>
     <div id="push"></div>
 </div>

@@ -1,0 +1,156 @@
+{% extends 'generic_list.html' %}
+
+{% load bootstrap3 %}
+{% load collectiontools %}
+{% load policytools %}
+
+{% block site_title %}List of Policies{% endblock %}
+{% block body_title %}List of Policies{% endblock %}
+
+{% block add_url %}{% url 'policy:write' %}{% endblock %}
+
+{% block list %}
+	<thead>
+		<th class="col-md-3">Name</th>
+		<th></th>
+		<th></th>
+	</thead>
+	<tbody>
+		{% for object in object_list %}
+			<tr class="clickable active" data-toggle="collapse" id="policy-{{ object.id }}" data-target=".policy-{{ object.id }}-collapsed">
+				<th class="col-md-2">{{ object.name }}</th>
+				<td>{{ object.status|policy_status_pretty }}</td>
+				<td>
+					<a class="btn btn-default btn-sm" data-toggle="tooltip" title="Amend Policy" href="{% url 'policy:amend' object.id %}">{% bootstrap_icon 'file' %}</a>
+				</td>
+			</tr>
+
+			{% for revision in object.revision_set.all %}
+				<tr class="collapse policy-{{ object.id }}-collapsed">
+					<td>{{ revision.change }}</td>
+					<td>{{ revision.status|policy_status_pretty }}</td>
+					<td>
+						<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#revision-{{ revision.id }}-modal">{% bootstrap_icon "pencil" %}</a>
+					</td>
+				</tr>
+
+				<div class="modal fade" id="revision-{{ revision.id }}-modal" role="dialog" >
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" id="revision-{{ revision.id }}-modal-title">{{ revision.change }}</h4>
+							</div>
+							<div class="modal-body">
+								<p>You are changing the status for a revision of <strong>{{ revision.policy.name }}</strong>.</p>
+
+								<p>Please indicate why you are making this change. Record the date of any relevant meetings in the case that this status
+								change requires committee approval. You <strong>must</strong> leave a note.</p>
+
+								<form>
+									{% bootstrap_form status_update_note_form layout="inline" %}
+								</form>
+
+								<p>Select a status from the list below. The current status of this revision is {{ revision.status|policy_status_pretty }}.</p>
+
+								<div class="panel panel-default"> <!-- Submitted -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Submitted</h3>
+									</div>
+									<div class="panel-body">
+										This policy revision has been submitted and is awaiting secretarial approval.
+									</div>
+									<div class="panel-footer">
+										<a class="btn btn-primary btn-sm">Change to Submitted</a>
+									</div>
+								</div>
+
+								<div class="panel panel-default"> <!-- In Agenda -->
+									<div class="panel-heading">
+										<h3 class="panel-title">In Agenda</h3>
+									</div>
+									<div class="panel-body">
+										This policy revision has received secretarial approval and has been placed in the next agenda, which has been
+										distributed to the entire committee at least 48 hours before the meeting. If there is less than 48 hours
+										remaining before the meeting, the policy cannot be voted upon.
+									</div>
+									<div class="panel-footer">
+										<a class="btn btn-primary btn-sm">Change to In Agenda</a>
+									</div>
+								</div>
+
+								<div class="panel panel-default"> <!-- Discussion Delayed -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Discussion Delayed</h3>
+									</div>
+									<div class="panel-body">
+										Discussion on this policy revision has been delayed, as per The Constitution. Discussion can be delayed with the approval
+										of any two committee members. Discussoin <i>must</i> resume at the next meeting <i>if</i> the topic is included in
+										the agenda.
+									</div>
+									<div class="panel-footer">
+										<a class="btn btn-primary btn-sm">Change to Discussion Delayed</a>
+									</div>
+								</div>
+								
+								<div class="panel panel-default"> <!-- Enacted -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Enacted</h3>
+									</div>
+									<div class="panel-body">
+										This policy revision has been enacted via the means outlined in The Constitution. This revision is now considered to be the most
+										up-to-date version of the related policy, and any other revision(s) of the policy with the <i>enacted</i> status will be marked
+										as <i>nullified</i>.
+									</div>
+									<div class="panel-footer">
+										<a class="btn btn-primary btn-sm">Change to Enacted</a>
+									</div>
+								</div>
+
+								<div class="panel panel-default"> <!-- Failed -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Failed</h3>
+									</div>
+									<div class="panel-body">
+										This policy revision has been voted <i>down</i> by the committee, as per The Constitution. Discussion on this policy shall be
+										halted, unless the policy is resubmitted.
+									</div>
+									<div class="panel-footer">
+										<a class="btn btn-primary btn-sm">Change to Failed</a>
+									</div>
+								</div>
+
+								<div class="panel panel-default"> <!-- Nullified -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Nullified</h3>
+									</div>
+									<div class="panel-body">
+										This policy revision has been <i>nullified</i> by the committee, as per The Constitution. This can either happen by the superseding of this revision when a newer revision of the same policy is enacted by the committee, or when the policy as a whole is nullified explicitly by the committee.
+									</div>
+									<div class="panel-footer">
+										<a class="btn btn-primary btn-sm">Change to Nullified</a>
+									</div>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel Status Change</button>
+							</div>
+						</div>
+					</div>
+				</div>		
+			{% endfor %}
+		{% endfor %}
+	</tbody>
+	
+{% endblock %}
+
+{% block custom_table %}
+	table-hover table-condensed
+{% endblock %}
+
+{% block custom_js %}
+<script type="text/javascript">
+	$('[data-toggle="tooltip"]').tooltip()
+</script>
+{% endblock %}

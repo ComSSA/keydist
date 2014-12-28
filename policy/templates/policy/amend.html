@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load name %}
+
+{% block site_title %}Amend '{{ policy.name }}'{% endblock %}
+{% block body_title %}Amend '{{ policy.name }}'{% endblock %}
+
+{% block content %}
+<div class="row">
+	<p>This form allows you to amend '{{ policy.name }}'. If the amendment is enacted, the old revision of
+	the policy will be nullified. This amendment should be written to <strong>completely replace</strong> the
+	old revision, so any aspects of the policy that aren't changing should be <strong>included</strong> in
+	your new amendment.</p>
+	
+	<p>This new amendment will be marked as <i>submitted for committee approval</i>, and the currently enacted
+	revision will still be maintained in the databsae, even if/when this amendment is enacted.</p>
+	
+	<form action="{% url 'policy:amend' policy.id %}" method="post" class="form">
+		{% csrf_token %}
+			{% bootstrap_form form %}
+			{% bootstrap_button "Submit Amendment" button_type="submit" %}
+			{% bootstrap_button "Clear" button_type="reset" %}
+		{% buttons %}
+		{% endbuttons %}
+	</form>
+</div>
+{% endblock %}

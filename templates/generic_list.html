@@ -22,7 +22,7 @@
 	{% endblock %}
 
 	{% if object_list %}
-		<table class="table table-condensed">
+		<table class="table {% block custom_table %}table-condensed{% endblock %}">
 			{% block list %} {% endblock %}
 		</table>
 	{% else %}

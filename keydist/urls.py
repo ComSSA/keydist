@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('accounts.urls', namespace = 'accounts')),
     url(r'^keys/', include('keys.urls', namespace = 'keys')),
+    url(r'^policy/', include('policy.urls', namespace = 'policy')),
     url(r'^$', include('home.urls', namespace = 'home')),
 )

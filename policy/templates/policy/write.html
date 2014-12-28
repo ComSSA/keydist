@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load name %}
+
+{% block site_title %}Write a Policy{% endblock %}
+{% block body_title %}Write a Policy{% endblock %}
+
+{% block content %}
+<div class="row">
+	<p>After submission, a new policy will be created, along with a new revision for said policy (the 'initial revision').
+	The initial revision's status will be set to <i>submitted</i>, meaning it is up for committee review. You can change
+	this status after creation, but be warned that a full audit trail is kept.</p>
+
+	<form action="{% url 'policy:write' %}" method="post" class="form form-horizontal">
+		{% csrf_token %}
+		{% bootstrap_form form layout="horizontal"%}
+		{% buttons %}
+			{% bootstrap_button "Create Policy" button_type="submit" %}
+			{% bootstrap_button "Clear" button_type="reset" %}
+		{% endbuttons %}
+	</form>
+</div>
+{% endblock %}

@@ -21,7 +21,7 @@ urlpatterns = patterns('',
         name = 'amend'
     ),
 
-    url(r'^updatestatus/(?P<revision_id>\d+)$',
+    url(r'^revision/(?P<revision_id>\d+)/updatestatus$',
         permission_required('policy.create_revisionstatus')
         (views.update_status),
         name = 'update_status'

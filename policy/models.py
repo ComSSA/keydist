@@ -14,6 +14,21 @@ class Policy(models.Model):
 
 	@property
 	def status(self):
+		""" Try to assign a meaningful status to the policy.
+		
+		- If any revisions are in a state of transition:
+		  - Submitted.
+		  - Discussion Delayed.
+		  - In Agenda.
+		  these statuses represent the policy as a whole.
+		  
+		- If any revision is Enacted, the status of that revision represents
+		  the policy as a whole.
+		
+		- Otherwise, the status of the latest revision represents the policy
+		  as a whole.
+		"""
+		
 		r = Revision.objects.filter(policy = self).order_by('-timestamp')[0]
 		return r.status
 	
@@ -67,14 +82,16 @@ class RevisionStatus(models.Model):
 	ENACTED = 'EN'
 	FAILED = 'FA'
 	NULLIFIED = 'NU'
+	INVALID = "IV"
 
 	POLICY_REVISION_STATUS_CHOICES = (
 		(SUBMITTED, 'Submitted'),
 		(IN_AGENDA, 'In Agenda'),
-		(DELAYED, 'Delayed'),
+		(DELAYED, 'Discussion Delayed'),
 		(ENACTED, 'Enacted'),
 		(FAILED, 'Failed'),
 		(NULLIFIED, 'Nullified'),
+		(INVALID, "Invalid"),
 	)
 
 	changer = models.ForeignKey(

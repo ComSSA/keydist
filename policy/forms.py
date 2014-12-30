@@ -41,19 +41,19 @@ class NewPolicyForm(forms.Form):
 class AmendmentForm(forms.Form):
 	preamble = forms.CharField(
 		help_text = "Why should this policy be enacted? What is the spirit of the policy?",
-		widget = forms.Textarea,
+		widget = PagedownWidget(),
 		required = False
 	)
 
 	position = forms.CharField(
 		help_text = "If this policy is regarding ComSSA's official position regarding a topic, what should that position be?",
-		widget = forms.Textarea,
+		widget = PagedownWidget(),
 		required = False
 	)
 
 	action = forms.CharField(
 		help_text = "What action should be taken (either on a once-off or ongoing basis) as a result of this policy being enacted?",
-		widget = forms.Textarea,
+		widget = PagedownWidget(),
 		required = False
 	)
 
@@ -77,7 +77,6 @@ class StatusUpdateForm(forms.Form):
 		choices = RevisionStatus.POLICY_REVISION_STATUS_CHOICES
 	)
 
-class StatusUpdateNoteForm(forms.Form):
 	notes = forms.CharField(
 		help_text = "Why are you changing the status?",
 		max_length = 50,

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load display_pair %}
+{% load policytools %}
+{% load bootstrap3 %}
+
+{% block site_title %}Change Status of {{ revision.policy.name }} Revision{% endblock %}
+{% block body_title %}Change Status of <strong>{{ revision.policy.name }}</strong> Revision{% endblock %}
+
+{% block content %}
+
+	<form class="form form-horizontal" action="{% url 'policy:update_status' revision.id %}" method="POST">
+		{% csrf_token %}
+		
+		{{ revision.policy.name|display_pair:"Policy" }}
+		{{ revision.status|display_pair:"Current status" }}
+		
+		{% bootstrap_form form layout="horizontal" %}
+		<div class="form-group" id="id_new_status_info_group">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-10">
+				<p class="form-control-static" id="id_new_status_info">Loading...</p>
+			</div>
+		</div>
+		
+		<div class="col-md-offset-2">
+			{% buttons %}
+				{% bootstrap_button 'Change Status' 'submit' %}
+			{% endbuttons %}		
+		</div>
+	</form>
+
+{% endblock %}
+
+{% block custom_js %}
+<script type="text/javascript">
+
+	var statuses = Object()
+	
+	statuses.SB = "This policy revision has been submitted and is awaiting secretarial approval.";
+	statuses.AG = "This policy revision has received secretarial approval and has been placed in the next agenda, which has been distributed to the entire committee at least 48 hours before the meeting. If there is less than 48 hours remaining before the meeting, the policy cannot be voted upon.";
+	statuses.DL = "Discussion on this policy revision has been delayed, as per The Constitution. Discussion can be delayed with the approval of any two committee members. Discussoin <i>must</i> resume at the next meeting <i>if</i> the topic is included in the agenda.";
+	statuses.EN = "This policy revision has been enacted via the means outlined in The Constitution. This revision is now considered to be the most up-to-date version of the related policy, and any other revision(s) of the policy with the <i>enacted</i> status will be marked as <i>nullified</i>.";
+	statuses.FA = "This policy revision has been voted <i>down</i> by the committee, as per The Constitution. Discussion on this policy shall be halted, unless the policy is resubmitted.";
+	statuses.NU = "This policy revision has been <i>nullified</i> by the committee, as per The Constitution. This can either happen by the superseding of this revision when a newer revision of the same policy is enacted by the committee, or when the policy as a whole is nullified explicitly by the committee.";
+	statuses.IV = "This policy revision is invalid from an administrative standpoint. For instance, this policy has been entered prematurely or incorrectly. Reasoning for marking a policy as invalid must be provided in the notes section."
+	
+	function update_statuses()
+	{
+		$('#id_current_status_info').html(statuses[$('#id_current_status').value]);
+		$('#id_new_status_info').html(statuses[$('#id_new_status').val()]);
+	}
+	
+	$('document').ready(update_statuses);
+	
+	$('#id_new_status').on('change', update_statuses);
+
+</script>
+
+{% endblock %}

@@ -18,8 +18,8 @@
 	</thead>
 	<tbody>
 		{% for object in object_list %}
-			<tr class="clickable active" data-toggle="collapse" id="policy-{{ object.id }}" data-target=".policy-{{ object.id }}-collapsed">
-				<th>{{ object.name }}</th>
+			<tr>
+				<th><a href="{% url 'policy:info' object.id %}">{{ object.name }}</a> <span class="clickable active" data-toggle="collapse" id="policy-{{ object.id }}" data-target=".policy-{{ object.id }}-collapsed">{% bootstrap_icon "circle-arrow-down" %}</span></th>
 				<td>{{ object.status.get_status_display|policy_status_pretty }}</td>
 				<td></td>
 				<td>
@@ -29,7 +29,7 @@
 
 			{% for revision in object.revision_set.all %}
 				<tr class="collapse policy-{{ object.id }}-collapsed">
-					<td>{{ revision.change }}</td>
+					<td><a href="{% url 'policy:revision_info' revision.id %}">{{ revision.change }}</a></td>
 					<td>{{ revision.status.get_status_display|policy_status_pretty }}</td>
 					<td>{{ revision.submitters.all|join:", " }}</td>
 					<td>

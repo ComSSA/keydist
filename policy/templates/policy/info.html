@@ -1,0 +1,49 @@
+{% extends "generic_detail.html" %}
+
+{% load display_pair %}
+{% load markdown_deux_tags %}
+{% load bootstrap3 %}
+{% load policytools %}
+
+{% block custom_buttons_after %}
+	<a href="{% url 'policy:revision_info' object.effective_revision.id %}" class="btn btn-default">
+		{% bootstrap_icon "file" %} View Effective Revision
+	</a>
+	
+	<a href="{% url 'policy:amend' object.id %}" class="btn btn-default">
+		{% bootstrap_icon "pencil" %} Amend Policy
+	</a>
+{% endblock %}
+
+{% block noedit %}{% endblock %}
+{% block nodelete %}{% endblock %}
+{% block list_url %}{% url "policy:list" %}{% endblock %}
+
+{% block detail %}
+<h2>General Information</h2>
+{{ object.name|display_pair:"Name" }}
+{{ object.status|display_pair:"Estimated Status" }}
+{{ object.effective_revision.change|display_pair:"Effective Revision" }}
+
+<h2>Revisions</h2>
+<table class="table table-condensed">
+	<thead>
+		<th>Change</th>
+		<th>Status</th>
+		<th>Submitters</th>
+		<th>Endorsers</th>
+		<th>Submitted on</th>
+	</thead>
+	<tbody>
+		{% for revision in object.revision_set.all %}
+			<tr>
+				<td><a href="{% url 'policy:revision_info' revision.id %}">{{ revision.change }}</a></td>
+				<td>{{ revision.status.get_status_display|policy_status_pretty }}</td>
+				<td>{{ revision.submitters.all|join:", " }}</td>
+				<td>{{ revision.endorsers.all|join:", " }}</td>
+				<td>{{ revision.timestamp|date }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

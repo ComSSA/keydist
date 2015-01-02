@@ -1,0 +1,61 @@
+{% extends "generic_detail.html" %}
+
+{% load display_pair %}
+{% load markdown_deux_tags %}
+{% load bootstrap3 %}
+{% load policytools %}
+
+{% block custom_buttons_after %}
+	<a href="{% url 'policy:info' object.policy.id %}" class="btn btn-default">
+		{% bootstrap_icon "file" %} View Policy Info
+	</a>
+	
+	<a href="{% url 'policy:update_status' object.id %}" class="btn btn-default">
+		{% bootstrap_icon "pencil" %} Update Status
+	</a>
+{% endblock %}
+
+{% block noedit %}{% endblock %}
+{% block nodelete %}{% endblock %}
+{% block nolist %}{% endblock %}
+{% block list_url %}{% url "policy:list" %}{% endblock %}
+
+
+
+{% block detail %}
+	<h2>General Information</h2>
+	{{ object.policy.name|display_pair:"Policy Name" }}
+	{{ object.change|display_pair:"Change" }}
+	{{ object.status|display_pair:"Status" }}
+	{{ object.submitters.all|join:", "|display_pair:"Submitters" }}
+	{{ object.endorsers.all|join:", "|display_pair:"Endorsers" }}
+	{{ object.timestamp|date|display_pair:"Submitted" }}
+
+	<h2>Preamble</h2>
+	{{ object.preamble|markdown }}
+
+	<h2>Position</h2>
+	{{ object.position|markdown }}
+
+	<h2>Action</h2>
+	{{ object.action|markdown }}
+	
+	<h2>Status History</h2>
+	<table class="table table-condensed col-md-4">
+		<thead>
+			<th>Status</th>
+			<th>Changed on</th>
+			<th>Changed by</th>
+			<th>Notes</th>
+		</thead>
+		{% for status in object.revisionstatus_set.all %}
+			<tr>
+				<td>{{ status.get_status_display|policy_status_pretty }}</td>
+				<td>{{ status.timestamp|date }}</td>
+				<td>{{ status.changer }}</td>
+				<td>{{ status.notes }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+
+{% endblock %}

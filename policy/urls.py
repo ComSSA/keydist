@@ -20,7 +20,19 @@ urlpatterns = patterns('',
         (views.amend),
         name = 'amend'
     ),
-
+    
+    url(r'^(?P<pk>\d+)$',
+        permission_required('policy.read_policy')
+        (views.PolicyInfo.as_view()),
+        name = 'info'
+    ),
+    
+    url(r'^revision/(?P<pk>\d+)$',
+        permission_required('policy.read_revision')
+        (views.RevisionInfo.as_view()),
+        name = 'revision_info'
+    ),
+    
     url(r'^revision/(?P<revision_id>\d+)/updatestatus$',
         permission_required('policy.create_revisionstatus')
         (views.update_status),

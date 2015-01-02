@@ -52,11 +52,8 @@ def write(request):
 	})
 
 def amend(request, policy_id):
-	try:
-		target_policy = models.Policy.objects.get(pk = policy_id)
-		latest_revision = models.Revision.objects.filter(policy = policy_id).order_by('timestamp')[0]
-	except models.Policy.DoesNotExist:
-		raise Http404
+	target_policy = get_object_or_404(models.Policy, pk = policy_id)
+	latest_revision = models.Revision.objects.filter(policy = policy_id).order_by('timestamp')[0]
 
 	if request.method == 'POST':
 		form = forms.AmendmentForm(request.POST)
@@ -108,6 +105,14 @@ def amend(request, policy_id):
 class PolicyList(TheofficeListView):
 	model = models.Policy
 	template_name = 'policy/list.html'
+
+class PolicyInfo(TheofficeDetailView):
+    model = models.Policy
+    template_name = 'policy/info.html'
+
+class RevisionInfo(TheofficeDetailView):
+    model = models.Revision
+    template_name = 'policy/revision_info.html'
 
 def update_status(request, revision_id):
 	revision = get_object_or_404(models.Revision, pk = revision_id)

@@ -32,6 +32,15 @@ class Policy(models.Model):
 		r = Revision.objects.filter(policy = self).order_by('-timestamp')[0]
 		return r.status
 	
+	@property
+	def effective_revision(self):
+		for rev in self.revision_set.order_by('-timestamp'):
+			if rev.status.status == "EN":
+				return rev
+	
+	def __str__(self):
+		return self.name
+	
 
 class Revision(models.Model):
 	preamble = models.TextField(
@@ -73,6 +82,9 @@ class Revision(models.Model):
 
 	class Meta:
 		ordering = ['-timestamp']
+		
+	def __str__(self):
+		return "%s: %s" % (self.policy, self.change)
 
 
 class RevisionStatus(models.Model):

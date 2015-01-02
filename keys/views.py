@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from keys.models import *
-from keydist.views import *
+from theoffice.views import *
 from django.contrib import messages
 from django.utils import timezone
 from django.core.mail import send_mail

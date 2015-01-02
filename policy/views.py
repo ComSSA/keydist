@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 import forms
 import models
-from keydist.views import *
+from theoffice.views import *
 from django.contrib import messages
 
 

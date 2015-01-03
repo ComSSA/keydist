@@ -55,6 +55,12 @@ class KeydistUser(ValidateModelMixin, AbstractBaseUser, PermissionsMixin):
         max_length = 30,
         blank = False,
     )
+    
+    tidyclub_api_token = models.CharField(
+    	max_length = 256,
+    	blank = True,
+    	editable = False
+    )
 
     is_active = models.BooleanField(
         default = True

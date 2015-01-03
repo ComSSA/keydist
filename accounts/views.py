@@ -7,7 +7,9 @@ from django.core.mail import send_mail
 from textwrap import dedent
 from django.contrib import messages
 from django.core.exceptions import ValidationError
-
+from pytidyclub import pytidyclub
+from django.conf import settings
+from django.core.urlresolvers import reverse
 
 def login(request):
     # check if user has logged in
@@ -208,7 +210,8 @@ def cp(request):
     return render(request, 'accounts/cp.html', {
         'change_password_form': ChangePasswordForm(),
         'ip': ip,
-        'proxy': proxy
+        'proxy': proxy,
+        'tidyclub': request.user.tidyclub_api_token
     })
 
 def change_password(request):
@@ -220,3 +223,21 @@ def change_password(request):
             messages.success(request, "Your password has been changed successfully.")
     
     return redirect('accounts:cp')
+    
+def tidyclub(request):
+    if request.method == "GET":
+        a = pytidyclub.Club(
+            slug = "ComSSA",
+            client_id = settings.TIDYCLUB_API_ID,
+            client_secret = settings.TIDYCLUB_API_SECRET
+        )
+        
+        if 'code' in request.GET:
+            a.auth_authcode_exchange_code(request.GET['code'], request.build_absolute_uri(reverse('accounts:tidyclub')))
+            request.user.tidyclub_api_token = a.token
+            request.user.save()
+        else:
+            return redirect(a.auth_authcode_get_url(request.build_absolute_uri(reverse('accounts:tidyclub'))))
+    
+    return redirect('accounts:cp')   
+

@@ -117,3 +117,7 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+# pytidyclub settings.
+TIDYCLUB_API_ID = os.environ.get('THEOFFICE_TIDYCLUB_API_KEY')
+TIDYCLUB_API_SECRET = os.environ.get('THEOFFICE_TIDYCLUB_API_SECRET')

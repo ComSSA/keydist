@@ -57,11 +57,17 @@ urlpatterns = patterns('',
     	(views.sync),
     	name = 'permissions-sync'
     ),
-
+    
     url(r'^cp$',
         login_required()
         (views.cp),
         name = 'cp',
+    ),
+    
+    url('^cp/tidyclub',
+        login_required()
+        (views.tidyclub),
+        name = 'tidyclub',
     ),
 
     url(r'^cp/change_password$',

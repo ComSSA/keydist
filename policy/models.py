@@ -37,6 +37,8 @@ class Policy(models.Model):
 		for rev in self.revision_set.order_by('-timestamp'):
 			if rev.status.status == "EN":
 				return rev
+		
+		return self.revision_set.order_by('-timestamp')[0]
 	
 	def __str__(self):
 		return self.name

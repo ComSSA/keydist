@@ -147,3 +147,38 @@ def update_status(request, revision_id):
 		'revision': revision,
 		'form': form
 	})
+
+def agenda(request):
+	revisions = []
+
+	for revision in models.Revision.objects.all():
+		if revision.status.status in (models.RevisionStatus.SUBMITTED, models.RevisionStatus.DELAYED):
+			revisions.append(revision)
+
+	if request.method == 'POST':
+		for revision in revisions:
+			if revision.policy.lock == True:
+				messages.error(request, "Cannot change status for '%s' as the revision's policy has been edit locked." % revision)
+			else:
+				revision.policy.lock = True
+				revision.policy.save()
+
+				s = models.RevisionStatus()
+				s.changer = request.user
+				s.status = models.RevisionStatus.IN_AGENDA
+				s.notes = "Mass status update via agenda text generator."
+				s.revision = revision
+				s.save()
+
+				revision.policy.lock = False
+				revision.policy.save()
+
+		# repeating code is bad.
+		revisions = []
+		for revision in models.Revision.objects.all():
+			if revision.status.status in (models.RevisionStatus.SUBMITTED, models.RevisionStatus.DELAYED):
+				revisions.append(revision)
+
+	return render(request, "policy/agenda.html", {
+		'revisions': revisions
+	})

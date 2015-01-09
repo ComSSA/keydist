@@ -11,7 +11,7 @@ def policy_status_pretty(field, autoescape = None):
 	if autoescape is not True:
 		raise ValueError("Auto escaping must be turned on for this filter to work")
 
-	if field == "In Age nda":
+	if field == "In Agenda":
 		color = 'primary'
 	elif field == "Discussion Delayed":
 		color = "info"

@@ -9,6 +9,10 @@
 
 {% block add_url %}{% url 'policy:write' %}{% endblock %}
 
+{% block custom_buttons_after %}
+<a id="agenda_link" class="btn btn-default"> {% bootstrap_icon 'list' %} Generate Agenda Text</a>
+{% endblock %}
+
 {% block list %}
 	<thead>
 		<th class="col-md-4">Name</th>
@@ -49,5 +53,23 @@
 {% block custom_js %}
 <script type="text/javascript">
 	$('[data-toggle="tooltip"]').tooltip()
+</script>
+
+<script type="text/javascript">
+	// Popup window code
+	function newPopup(url) {
+		popupWindow = window.open(
+			url,'popUpWindow','height=700,width=800,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+	}
+	$(document).ready(function() {
+		function newPopup(url) {
+			popupWindow = window.open(
+			url,'popUpWindow','height=700,width=800,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+		}
+
+		$("#agenda_link").click(function() {
+			newPopup("{% url 'policy:agenda' %}");
+		});
+	});
 </script>
 {% endblock %}

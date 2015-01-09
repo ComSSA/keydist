@@ -21,7 +21,7 @@
 			<tr>
 				<th><a href="{% url 'policy:info' object.id %}">{{ object.name }}</a> <span class="clickable active" data-toggle="collapse" id="policy-{{ object.id }}" data-target=".policy-{{ object.id }}-collapsed">{% bootstrap_icon "circle-arrow-down" %}</span></th>
 				<td>{{ object.status.get_status_display|policy_status_pretty }}</td>
-				<td></td>
+				<td>—</td>
 				<td>
 					<a class="btn btn-default btn-sm" data-toggle="tooltip" title="Amend Policy" href="{% url 'policy:amend' object.id %}">{% bootstrap_icon 'file' %}</a>
 				</td>

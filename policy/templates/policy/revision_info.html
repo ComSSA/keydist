@@ -32,14 +32,20 @@
 	{{ object.timestamp|date|display_pair:"Submitted" }}
 
 	<h2>Preamble</h2>
-	{{ object.preamble|markdown }}
+	<div class="well">
+		{{ object.preamble|markdown }}
+	</div>
 
 	<h2>Position</h2>
-	{{ object.position|markdown }}
+	<div class="well">
+		{{ object.position|markdown }}
+	</div>
 
 	<h2>Action</h2>
-	{{ object.action|markdown }}
-	
+	<div class="well">
+		{{ object.action|markdown }}
+	</div>
+
 	<h2>Status History</h2>
 	<table class="table table-condensed col-md-4">
 		<thead>

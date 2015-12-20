@@ -1,0 +1,4 @@
+-r base.txt
+autoenv==1.0.0
+coverage==3.7.1
+django-postmark==0.1.6

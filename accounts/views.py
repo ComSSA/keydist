@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect
 from forms import *
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, get_user_model
+from django.contrib.auth import login as auth_login, logout as auth_logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, Permission
 from django.core.mail import send_mail
 from textwrap import dedent
 from django.contrib import messages
 from django.core.exceptions import ValidationError
-from pytidyclub import pytidyclub
-from django.conf import settings
-from django.core.urlresolvers import reverse
+
 
 def login(request):
     # check if user has logged in
@@ -53,7 +51,7 @@ def admin(request):
 def sync(request):
     sync = [
     ]
-    
+
 
     for s in sync:
         group = Group.objects.get_or_create(name = s['group'])[0]
@@ -66,7 +64,7 @@ def sync(request):
 
     messages.success(request, "Permissions have been synced successfully.")
     return redirect('accounts:admin')
-    
+
 def change_password_admin(request):
     if request.method == 'POST':
         form = AdminChangePasswordForm(request.POST)
@@ -119,7 +117,7 @@ def admin_create_user(request):
             try:
                 u = get_user_model().objects.create_user(
                     form.cleaned_data['curtin_id'],
-                    form.cleaned_data['first_name'], 
+                    form.cleaned_data['first_name'],
                     form.cleaned_data['last_name']
                 )
                 u.save()
@@ -129,7 +127,7 @@ def admin_create_user(request):
                 return redirect('accounts:admin')
         else:
             messages.error(request, "Error.")
-    
+
     return redirect('accounts:admin')
 
 def admin_add_admin(request):
@@ -163,7 +161,7 @@ def admin_add_admin(request):
             messages.success(request, 'The user has been created and a password has been emailed to them.')
         else:
             messages.error(request, "Error.")
-    
+
     return redirect('accounts:admin')
 
 def admin_remove_admin(request):
@@ -195,23 +193,15 @@ def admin_remove_admin(request):
             messages.success(request, 'The user has been removed as an admin.')
         else:
             messages.error(request, "Error.")
-    
+
     return redirect('accounts:admin')
 
 
 def cp(request):
-    try:
-        ip = request.META['HTTP_X_FORWARDED_FOR']
-        proxy = True
-    except KeyError:
-        ip = request.META['REMOTE_ADDR']
-        proxy = False
 
     return render(request, 'accounts/cp.html', {
         'change_password_form': ChangePasswordForm(),
         'ip': ip,
-        'proxy': proxy,
-        'tidyclub': request.user.tidyclub_api_token
     })
 
 def change_password(request):
@@ -221,23 +211,5 @@ def change_password(request):
             request.user.set_password(form.cleaned_data['password'])
             request.user.save()
             messages.success(request, "Your password has been changed successfully.")
-    
-    return redirect('accounts:cp')
-    
-def tidyclub(request):
-    if request.method == "GET":
-        a = pytidyclub.Club(
-            slug = "ComSSA",
-            client_id = settings.TIDYCLUB_API_ID,
-            client_secret = settings.TIDYCLUB_API_SECRET
-        )
-        
-        if 'code' in request.GET:
-            a.auth_authcode_exchange_code(request.GET['code'], request.build_absolute_uri(reverse('accounts:tidyclub')))
-            request.user.tidyclub_api_token = a.token
-            request.user.save()
-        else:
-            return redirect(a.auth_authcode_get_url(request.build_absolute_uri(reverse('accounts:tidyclub'))))
-    
-    return redirect('accounts:cp')   
 
+    return redirect('accounts:cp')

@@ -9,12 +9,12 @@ urlpatterns = patterns('',
     	views.login,
     	name = 'login'
     ),
-    
+
     url(r'^logout/?$',
     	views.logout,
     	name = 'logout'
     ),
-    
+
 
     url(r'^admin$',
         permission_required('accounts.see_admin')
@@ -27,19 +27,19 @@ urlpatterns = patterns('',
         (views.admin_create_user),
         name = 'admin-createuser'
     ),
-    
+
     url(r'^admin/add_admin$',
         permission_required('accounts.change_kanriuser')
         (views.admin_add_admin),
         name = 'admin-add-admin'
     ),
-    
+
     url(r'^admin/remove_admin$',
         permission_required('accounts.change_kanriuser')
         (views.admin_remove_admin),
         name = 'admin-remove-admin'
     ),
-    
+
     url(r'^admin/pass$',
         permission_required('accounts.change_user_password')
         (views.change_password_admin),
@@ -57,17 +57,11 @@ urlpatterns = patterns('',
     	(views.sync),
     	name = 'permissions-sync'
     ),
-    
+
     url(r'^cp$',
         login_required()
         (views.cp),
         name = 'cp',
-    ),
-    
-    url('^cp/tidyclub',
-        login_required()
-        (views.tidyclub),
-        name = 'tidyclub',
     ),
 
     url(r'^cp/change_password$',

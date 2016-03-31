@@ -47,6 +47,7 @@ def upload(request):
 class SKUAdd(TheofficeCreateView):
     model = SKU
     success_url = reverse_lazy('keys:product-list')
+    fields = ['name', 'product']
 
 
 class ProductAdd(TheofficeCreateView):

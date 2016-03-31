@@ -1,6 +1,6 @@
 from __future__ import division
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 
 class Product(models.Model):
@@ -28,7 +28,7 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('keys:product-detail', args = [self.id])
-        
+
     def __unicode__(self):
         return self.name
 
@@ -72,14 +72,14 @@ class Key(models.Model):
         help_text = 'The type of key, as reported by the MSDNAA portal.'
     )
 
-    allocated_to = models.ForeignKey(get_user_model(),
+    allocated_to = models.ForeignKey(settings.AUTH_USER_MODEL
         blank = True,
         null = True,
         help_text = "The user the key has been allocated to.",
         related_name = 'allocated_to'
     )
 
-    allocated_by = models.ForeignKey(get_user_model(),
+    allocated_by = models.ForeignKey(settings.AUTH_USER_MODEL,
         blank = True,
         null = True,
         help_text = "The user that allocated this key.",
@@ -92,14 +92,14 @@ class Key(models.Model):
         help_text = "The time and date at which the key was allocated, if at all."
     )
 
-    imported_by = models.ForeignKey(get_user_model(),
+    imported_by = models.ForeignKey(settings.AUTH_USER_MODEL,
         related_name = 'imported_by'
     )
 
     imported_at = models.DateTimeField(
         help_text = "The date and time at which the key was imported."
     )
-    
+
     sku = models.ForeignKey(SKU)
 
     def get_absolute_url(self):

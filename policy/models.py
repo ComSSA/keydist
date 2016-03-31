@@ -1,7 +1,7 @@
 # coding=utf-8
 from __future__ import absolute_import, unicode_literals
+from django.conf import settings
 from django.db import models
-from django.contrib.auth import get_user_model
 
 
 class Policy(models.Model):
@@ -57,10 +57,10 @@ class Revision(models.Model):
 
     action = models.TextField(blank=True)
 
-    submitters = models.ManyToManyField(get_user_model(),
+    submitters = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name='submitters')
 
-    endorsers = models.ManyToManyField(get_user_model(),
+    endorsers = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                        related_name='endorsers')
 
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
@@ -105,7 +105,7 @@ class RevisionStatus(models.Model):
     )
 
     changer = models.ForeignKey(
-        get_user_model(),
+        settings.AUTH_USER_MODEL,
         editable=False,
         help_text="Who caused the status change?"
     )

@@ -5,7 +5,6 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
                                         PermissionsMixin)
 from django.core import validators
 from theoffice.ValidateModelMixin import ValidateModelMixin
-from django.db.models.loading import get_model
 
 
 class KeydistUserManager(BaseUserManager):
@@ -38,7 +37,7 @@ class KeydistUser(ValidateModelMixin, AbstractBaseUser, PermissionsMixin):
 
     first_name = models.CharField(max_length=30, blank=False)
 
-    last_name = models.CharField(max_lengt=30, blank=False)
+    last_name = models.CharField(max_length=30, blank=False)
 
     tidyclub_api_token = models.CharField(max_length=256, blank=True,
                                           editable=False)

@@ -72,7 +72,7 @@ class Key(models.Model):
         help_text = 'The type of key, as reported by the MSDNAA portal.'
     )
 
-    allocated_to = models.ForeignKey(settings.AUTH_USER_MODEL
+    allocated_to = models.ForeignKey(settings.AUTH_USER_MODEL,
         blank = True,
         null = True,
         help_text = "The user the key has been allocated to.",

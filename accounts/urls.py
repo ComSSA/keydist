@@ -6,20 +6,20 @@ from accounts import views
 urlpatterns = patterns('',
     #url(r'^$', views.index, name = 'index'),
     url(r'^login/?$',
-    	views.login,
-    	name = 'login'
+        views.login,
+        name = 'login'
     ),
 
     url(r'^logout/?$',
-    	views.logout,
-    	name = 'logout'
+        views.logout,
+        name = 'logout'
     ),
 
 
     url(r'^admin$',
         permission_required('accounts.see_admin')
-    	(views.admin),
-    	name = 'admin'
+        (views.admin),
+        name = 'admin'
     ),
 
     url(r'^admin/createuser$',
@@ -54,8 +54,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/sync$',
         permission_required('accounts.sync_permissions')
-    	(views.sync),
-    	name = 'permissions-sync'
+        (views.sync),
+        name = 'permissions-sync'
     ),
 
     url(r'^cp$',

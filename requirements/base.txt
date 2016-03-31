@@ -1,0 +1,8 @@
+Django==1.9.4
+django-bootstrap3==7.0.1
+django-extensions==1.6.1
+django-lockout==0.1.1
+django-markdown-deux==1.0.5
+django-pagedown==0.1.1
+markdown2==2.3.1
+pytz>=2016.3

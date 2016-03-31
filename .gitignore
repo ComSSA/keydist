@@ -60,3 +60,9 @@ env.sh
 
 .env
 private/**
+
+# Virtualenv
+bin/
+share/
+include/
+pip-selfcheck.json

@@ -1,21 +1,22 @@
+# coding=utf-8
+from __future__ import absolute_import, unicode_literals
 from django.db import models
 from django.contrib.auth import get_user_model
 
 
 class Policy(models.Model):
-    name = models.CharField(
-        max_length = 50,
-        help_text = "What should this policy be called?"
-    )
 
-    lock = models.BooleanField(
-        default = False,
-        editable = False
-    )
+    "A policy."
+
+    name = models.CharField(
+        max_length=50,
+        help_text="What should this policy be called?")
+
+    lock = models.BooleanField(default=False, editable=False)
 
     @property
     def status(self):
-        """ Try to assign a meaningful status to the policy.
+        """Try to assign a meaningful status to the policy.
 
         - If any revisions are in a state of transition:
           - Submitted.
@@ -30,15 +31,16 @@ class Policy(models.Model):
           as a whole.
         """
 
-        r = Revision.objects.filter(policy = self).order_by('-timestamp')[0]
+        # actual implementation does not match docstring!?
+        r = Revision.objects.filter(policy=self).order_by('-timestamp')[0]
         return r.status
 
     @property
     def effective_revision(self):
+        """Find the effective revision of the policy."""
         for rev in self.revision_set.order_by('-timestamp'):
             if rev.status.status == "EN":
                 return rev
-
         return self.revision_set.order_by('-timestamp')[0]
 
     def __str__(self):
@@ -46,42 +48,32 @@ class Policy(models.Model):
 
 
 class Revision(models.Model):
-    preamble = models.TextField(
-        blank = True,
-    )
 
-    position = models.TextField(
-        blank = True,
-    )
+    """A policy revision."""
 
-    action = models.TextField(
-        blank = True,
-    )
+    preamble = models.TextField(blank=True)
 
-    submitters = models.ManyToManyField(
-        get_user_model(),
-        related_name = 'submitters'
-    )
+    position = models.TextField(blank=True)
 
-    endorsers = models.ManyToManyField(
-        get_user_model(),
-        related_name = 'endorsers'
-    )
+    action = models.TextField(blank=True)
 
-    timestamp = models.DateTimeField(
-        auto_now_add = True,
-        editable = False
-    )
+    submitters = models.ManyToManyField(get_user_model(),
+                                        related_name='submitters')
 
-    change = models.CharField(
-        max_length = 50,
-    )
+    endorsers = models.ManyToManyField(get_user_model(),
+                                       related_name='endorsers')
+
+    timestamp = models.DateTimeField(auto_now_add=True, editable=False)
+
+    change = models.CharField(max_length=50)
 
     policy = models.ForeignKey(Policy)
 
     @property
     def status(self):
-        return RevisionStatus.objects.filter(revision = self).order_by('-timestamp')[0]
+        """Get the revision's current status."""
+        return RevisionStatus.objects.filter(
+            revision=self).order_by('-timestamp')[0]
 
     class Meta:
         ordering = ['-timestamp']
@@ -91,6 +83,9 @@ class Revision(models.Model):
 
 
 class RevisionStatus(models.Model):
+
+    """A status change on a policy revision."""
+
     SUBMITTED = 'SB'
     IN_AGENDA = 'AG'
     DELAYED = 'DL'
@@ -111,28 +106,22 @@ class RevisionStatus(models.Model):
 
     changer = models.ForeignKey(
         get_user_model(),
-        editable = False,
-        help_text = "Who caused the status change?"
+        editable=False,
+        help_text="Who caused the status change?"
     )
 
     timestamp = models.DateTimeField(
-        auto_now_add = True,
-        editable = False
+        auto_now_add=True,
+        editable=False
     )
 
-    status = models.CharField(
-        help_text = "What's the new status?",
-        choices = POLICY_REVISION_STATUS_CHOICES,
-        max_length = 2
-    )
+    status = models.CharField(help_text="What's the new status?",
+                              choices=POLICY_REVISION_STATUS_CHOICES,
+                              max_length=2)
 
-    notes = models.CharField(
-        max_length = 50,
-    )
+    notes = models.CharField(max_length=50)
 
-    revision = models.ForeignKey(
-        Revision
-    )
+    revision = models.ForeignKey(Revision)
 
     def __str__(self):
         return self.get_status_display()

@@ -130,3 +130,18 @@ EMAIL_BACKEND = 'postmark.backends.PostmarkBackend'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+
+# Security
+
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+X_FRAME_OPTIONS = 'DENY'

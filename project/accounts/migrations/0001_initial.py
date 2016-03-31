@@ -35,6 +35,6 @@ class Migration(migrations.Migration):
                 'ordering': ['first_name'],
                 'permissions': set([('change_user_passowrd', "Can change any user's password"), ('sync_permissions', 'Can sync permissions'), ('see_admin', 'User can see the admin page')]),
             },
-            bases=(models.Model),
+            bases=(models.Model,),
         ),
     ]

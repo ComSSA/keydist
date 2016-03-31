@@ -1,10 +1,10 @@
 # coding=utf-8
 from __future__ import absolute_import, unicode_literals
 from .base import *
-import dj_database_url
+from os import environ
 
 
-SECRET_KEY = environ['DATABASE_SECRET_KEY']
+SECRET_KEY = environ['SECRET_KEY']
 
 DEBUG = False
 

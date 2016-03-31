@@ -4,6 +4,7 @@ from django.core import validators
 from theoffice.ValidateModelMixin import ValidateModelMixin
 from django.db.models.loading import get_model
 
+
 class KeydistUserManager(BaseUserManager):
     def create_user(self, curtin_id, first_name, last_name, password = None):
         user = self.model(
@@ -45,7 +46,7 @@ class KeydistUser(ValidateModelMixin, AbstractBaseUser, PermissionsMixin):
             message = "Must be a valid curtin ID",
         )]
     )
-    
+
     first_name = models.CharField(
         max_length = 30,
         blank = False,
@@ -55,11 +56,11 @@ class KeydistUser(ValidateModelMixin, AbstractBaseUser, PermissionsMixin):
         max_length = 30,
         blank = False,
     )
-    
+
     tidyclub_api_token = models.CharField(
-    	max_length = 256,
-    	blank = True,
-    	editable = False
+        max_length = 256,
+        blank = True,
+        editable = False
     )
 
     is_active = models.BooleanField(
@@ -99,15 +100,15 @@ class KeydistUser(ValidateModelMixin, AbstractBaseUser, PermissionsMixin):
     # Compatibility with Django admin
     def get_short_name(self):
         return self.short_name
-    
+
     @property
     def keys_allocated_by(self):
         return get_model('keys', 'Key').objects.filter(allocated_by = self)
-    
+
     @property
     def keys_allocated_to(self):
         return get_model('keys', 'Key').objects.filter(allocated_to = self)
-    
+
     class Meta():
         permissions = {
             ('see_admin', "User can see the admin page"),

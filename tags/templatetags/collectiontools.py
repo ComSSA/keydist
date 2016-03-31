@@ -6,10 +6,12 @@ from django.template.defaultfilters import default
 
 register = template.Library()
 
+
 @register.filter
 def first_item(collection):
-	return collection[0]
+    return collection[0]
+
 
 @register.filter
 def other_items(collection):
-	return collection[1:]
+    return collection[1:]

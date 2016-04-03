@@ -2,32 +2,32 @@
 {% load bootstrap3 %}
 {% load name %}
 
-{% block site_title %} Details for {{ object }} {% endblock %}
-{% block body_title %} Details for <b>{{ object }}</b> {% endblock %}
+{% block site_title %}Details for {{ object }}{% endblock %}
+{% block body_title %}{{ object }}{% endblock %}
 
 {% block content %}
 	{% block nocontrols %}
-		<div class="btn-group">
+		<div class="button-group">
 			{% block custom_buttons_before %} {% endblock %}
-	
+
 			{% block noedit %}
-				<a href="{% block edit_url %}{% url 'home' %}{% endblock %}"class="btn btn-default">
-					{% bootstrap_icon "pencil" %} Update {{ object }}
+				<a href="{% block edit_url %}{% url 'home' %}{% endblock %}"class="button">
+					Update {{ object }}
 				</a>
 			{% endblock %}
-		
+
 			{% block nodelete %}
-				<a href="{% block delete_url %}{% url 'home' %}{% endblock %}" class="btn btn-default">
-					{% bootstrap_icon "remove" %} Delete {{ object }}</a>
+				<a href="{% block delete_url %}{% url 'home' %}{% endblock %}" class="button">
+					Delete {{ object }}</a>
 				</a>
 			{% endblock %}
-		
+
 			{% block nolist %}
-				<a href="{% block list_url %}{% url 'home' %}{% endblock %}" class="btn btn-default">
-					{% bootstrap_icon "list" %} {{ object|class_name }} List</a>
+				<a href="{% block list_url %}{% url 'home' %}{% endblock %}" class="button">
+				  {{ object|class_name }} List</a>
 				</a>
 			{% endblock %}
-	
+
 			{% block custom_buttons_after %} {% endblock %}
 		</div>
 		<hr />

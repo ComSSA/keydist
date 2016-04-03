@@ -19,12 +19,6 @@ def display_pair(field, name, autoescape=None):
         field = nicebool(field, autoescape=True)
     else:
         field = escape(default(field, '-'))
-    markup = """
-    <div class='form-group'>
-        <label class='col-sm-2 control-label'>{}</label>
-        <div class='col-sm-10'>
-            <p class='form-control-static'>{}</p>
-        </div>
-    </div> """.format(name, field)
+    markup = "<li><b>{}:</b> {}</li>".format(name, field)
 
     return mark_safe(markup)

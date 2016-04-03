@@ -1,28 +1,25 @@
 {% extends "base.html" %}
-{% load bootstrap3 %}
 {% load name %}
 
-{% block site_title %} List of {{ view|model_name:True }} {% endblock %}
-{% block body_title %} List of <b>{{ view|model_name:True }}</b> {% endblock %}
+{% block site_title %}List of {{ view|model_name:True }} {% endblock %}
+{% block body_title %}List of <b>{{ view|model_name:True }}</b> {% endblock %}
 
 {% block content %}
 	{% block nocontrols %}
-		<div class="btn-group">
 			{% block custom_buttons_before %} {% endblock %}
-	
+
 			{% block noadd %}
-				<a href="{% block add_url %}{% url 'home' %}{% endblock %}"class="btn btn-default">
-					{% bootstrap_icon "plus" %} Add {{ view|model_name }}
+				<a href="{% block add_url %}{% url 'home' %}{% endblock %}" class="button">
+					Add {{ view|model_name }}
 				</a>
 			{% endblock %}
-	
+
 			{% block custom_buttons_after %} {% endblock %}
-		</div>
 		<hr />
 	{% endblock %}
 
 	{% if object_list %}
-		<table class="table {% block custom_table %}table-condensed{% endblock %}">
+		<table class="table">
 			{% block list %} {% endblock %}
 		</table>
 	{% else %}

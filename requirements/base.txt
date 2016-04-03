@@ -1,5 +1,6 @@
 Django==1.9.4
 django-bootstrap3==7.0.1
+django-debug-toolbar==1.4
 django-extensions==1.6.1
 django-lockout==0.1.1
 django-markdown-deux==1.0.5

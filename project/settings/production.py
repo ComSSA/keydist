@@ -24,11 +24,6 @@ DATABASES = {
 }
 
 
-# Staticfiles
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-
 # Security
 
 SESSION_COOKIE_SECURE = True

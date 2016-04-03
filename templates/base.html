@@ -9,7 +9,10 @@
     <title>{% block site_title %}Example{% endblock %} - theoffice</title>
 
     <link rel="icon" typ6e="image/png" href="{% static 'img/comssa_logo_128.png' %}" />
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="{% static 'css/milligram.min.css' %}">
+
     <!-- Page-specific CSS -->
     {% block custom_css %}
     {% endblock %}
@@ -21,15 +24,18 @@
     <h1 id="site-name">the<b>office</b></h1>
     <hr />
     <div id="nav">
-      {% include "_nav_item.html" with item_url='keys:product-list' item_name='Keys' %}
-      {% if request.user.is_authenticated %}
+      {% if request.user.is_superuser %}
+        {% include "_nav_item.html" with item_url='keys:product-list' item_name='Keys' %}
+        {% include "_nav_item.html" with item_url='accounts:admin' item_name='Administration' %}
+
         {% include "_nav_item.html" with item_url='logout' item_name='Log out' %}
-      {% else %}
+      {% endif %}
+      {% if not request.user.is_authenticated %}
         {% include "_nav_item.html" with item_url='login' item_name='Log in' %}
       {% endif %}
     </div>
     <hr />
-    <h1>{% block body_title %}{% endblock %}</h1>
+    <h2>{% block body_title %}{% endblock %}</h2>
     {% block content %}
     {% endblock %}
     <hr />

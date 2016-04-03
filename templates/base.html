@@ -21,6 +21,7 @@
     <h1 id="site-name">the<b>office</b></h1>
     <hr />
     <div id="nav">
+      {% include "_nav_item.html" with item_url='keys:product-list' item_name='Keys' %}
       {% if request.user.is_authenticated %}
         {% include "_nav_item.html" with item_url='logout' item_name='Log out' %}
       {% else %}
@@ -38,6 +39,7 @@
         Hacked together by <a href="http://kye.id.au">Kye</a>.
       <span>
     </div>
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
     <!-- Page-specific Javascript -->
     {% block custom_js %}
     {% endblock %}

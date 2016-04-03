@@ -117,9 +117,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-# Auth model.
+# Auth.
 
 AUTH_USER_MODEL = 'accounts.KeydistUser'
+
+LOGIN_REDIRECT_URL = 'home:index'
 
 
 # Customised django.contrib.messages for bootstrap

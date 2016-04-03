@@ -178,7 +178,6 @@ def cp(request):
 
     return render(request, 'accounts/cp.html', {
         'change_password_form': ChangePasswordForm(),
-        'ip': ip,
     })
 
 def change_password(request):

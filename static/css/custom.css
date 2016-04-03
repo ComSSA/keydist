@@ -25,6 +25,16 @@ hr {
   border: 1px #000 dashed;
 }
 
+/* Nav */
+
+#nav a {
+    background-color: #DDD;
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+    color: inherit;
+    overflow: auto;
+}
+
 /* Forms */
 
 form li {

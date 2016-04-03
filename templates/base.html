@@ -21,7 +21,11 @@
     <h1 id="site-name">the<b>office</b></h1>
     <hr />
     <div id="nav">
-      [ <a>log in</a> ]
+      {% if request.user.is_authenticated %}
+        {% include "_nav_item.html" with item_url='logout' item_name='Log out' %}
+      {% else %}
+        {% include "_nav_item.html" with item_url='login' item_name='Log in' %}
+      {% endif %}
     </div>
     <hr />
     <h1>{% block body_title %}{% endblock %}</h1>

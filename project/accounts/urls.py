@@ -6,14 +6,6 @@ from project.accounts import views
 
 
 urlpatterns = [
-    url(r'^login/?$',
-        views.login,
-        name='login'),
-
-    url(r'^logout/?$',
-        views.logout,
-        name='logout'),
-
     url(r'^admin$',
         permission_required('accounts.see_admin')
         (views.admin),

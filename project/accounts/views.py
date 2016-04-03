@@ -11,31 +11,6 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 
 
-def login(request):
-    # check if user has logged in
-    if request.user.is_authenticated():
-        return redirect('home:index')
-
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            auth_login(request, form.user)
-            messages.success(request, "You have been logged in successfully, %s" % form.user.first_name)
-            return redirect("home:index")
-    else:
-        form = LoginForm()
-    return render(request, 'accounts/login.html', {
-        'form': form
-        })
-
-@login_required
-def logout(request):
-    if request.method == "POST":
-        auth_logout(request)
-        messages.success(request, "You have been logged out.")
-        return redirect('home:index')
-    return render(request, 'accounts/logout.html')
-
 def admin(request):
     change_password_form = AdminChangePasswordForm()
     reset_password_form = UserSelectionForm()

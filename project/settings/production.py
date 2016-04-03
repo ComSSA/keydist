@@ -27,3 +27,21 @@ DATABASES = {
 # Staticfiles
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+# Security
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+
+
+# Email backend
+
+EMAIL_BACKEND = 'postmark.django_backend.EmailBackend'
+
+POSTMARK_API_KEY = environ['POSTMARK_API_KEY']
+
+POSTMARK_SENDER = environ['POSTMARK_SENDER']

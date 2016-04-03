@@ -1,78 +1,57 @@
-html, body {
-  /* The html and body elements cannot have any padding or margin. */
-  height: 100%;
+/* Base elements */
+
+body {
+  background-color: #DDD;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0px;
 }
 
-/* Wrapper for page content to push down footer */
+hr {
+  border-style: solid;
+  border-width: 1px;
+}
+
+#site-name {
+  text-align: center;
+  text
+}
+
 #wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  /* Negative indent footer by it's height */
-  margin: 0 auto -60px;
-}
-
-/* Set the fixed height of the footer here */
-#push {
-  height: 60px;
-}
-
-#footer {
-  height: 60px;
-  background-color: #f5f5f5;
-}
-
-/* Lastly, apply responsive CSS fixes as necessary */
-@media (max-width: 767px) {
-  #footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
-.container .credit {
-  margin: 20px 0;
-}
-
-.notop {
-  padding-top: 0px;
-  margin-top: 0px;
-}
-
-table.table tbody td
-{
-  vertical-align: middle;
-}
-
-#footer_logo
-{
-  height: 16px;
-  width: auto;
-}
-
-#brand_logo
-{
-  max-width: 32px;
-  margin-top: -3px;
-}
-
-.wmd-panel
-{
-  margin-left: 0%;
-  margin-right: 0%;
-}
-
-.wmd-input 
-{ 
   background-color: #FFF;
-  font-family: "Consolas", "Monaco", monospace;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 1%;
+  padding: 1%;
+  border: 1px #000 dashed;
 }
 
-.wmd-preview 
-{ 
-  background-color: #FFF;
-  border: 2px #CCC dotted;
-  margin-top: 10px;
+/* Forms */
+
+form li {
+  list-style-type: none;
+  line-height: 2.5em;
+}
+
+form label {
+  display: inline;
+}
+
+form .field {
+  display: inline;
+}
+
+input[type=submit], input[type=button] {
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Tables */
+
+table th, table td {
+  border: 1px #000 dotted;
+  padding: 0em 0.5em;
 }

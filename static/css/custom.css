@@ -50,13 +50,16 @@ form .field {
   display: inline;
 }
 
-input[type=submit], input[type=button] {
+input[type=submit], input[type=button], button, .button {
     border: none;
     color: white;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    background-color: #DDD;
+    color: #000;
+    font-size: inherit;
 }
 
 /* Tables */

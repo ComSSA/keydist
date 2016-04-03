@@ -65,7 +65,7 @@
                             </li>
                         </ul>
                     {% else %}
-                        <form method="post" action="{% url 'accounts:login' %}" class="navbar-form navbar-right">
+                        <form method="post" action="{% url 'login' %}" class="navbar-form navbar-right">
                             {% csrf_token %}
                             <div class="form-group">
                                 <input type="text" name="email" placeholder="Curtin ID" class="form-control">
@@ -80,7 +80,7 @@
             </div><!--/.container-fluid -->
         </nav>
     </div>
-    
+
     <div class="container">
         <div class="col-md-10 col-md-offset-1">
             <div class="page-header">
@@ -103,8 +103,8 @@
     <div id="footer">
         <div class="container" onmouseover="showCredits();" onmouseout="hideCredits();">
             <p id="footer_credits" class="text-muted credit text-center">
-                theoffice &copy; 2014 <a href="https://comssa.org.au">ComSSA</a>. 
-                Made by <a href="http://github.com/kyerussell">Kye Russell</a>. 
+                theoffice &copy; 2014 <a href="https://comssa.org.au">ComSSA</a>.
+                Made by <a href="http://github.com/kyerussell">Kye Russell</a>.
                 <a href="https://github.com/comssa/keydist">Available on GitHub</a>.
             </p>
         </div>

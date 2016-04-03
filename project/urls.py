@@ -8,6 +8,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/', include('project.accounts.urls', namespace='accounts')),
     url(r'^keys/', include('project.keys.urls', namespace='keys')),
     url(r'^policy/', include('project.policy.urls', namespace='policy')),

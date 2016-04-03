@@ -1,0 +1,9 @@
+{% extends 'keys/base.html' %}
+{% load bootstrap3 %}
+
+{% block site_title %}Allocate a Key{% endblock %}
+{% block body_title %}Allocate a <b>Key</b>{% endblock %}
+
+{% block content %}
+	{% include "forms/_form.html" with form_submit_value="Allocate" %}
+{% endblock %}

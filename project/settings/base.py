@@ -25,8 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
 
+    'debug_toolbar',
     'lockout',
     'bootstrap3',
     'pagedown',
@@ -95,7 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-au'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Australia/Perth'
 
 USE_I18N = True
 
@@ -115,9 +117,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-# Auth model.
+# Auth.
 
 AUTH_USER_MODEL = 'accounts.KeydistUser'
+
+LOGIN_REDIRECT_URL = 'home:index'
 
 
 # Customised django.contrib.messages for bootstrap
@@ -134,3 +138,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 
 X_FRAME_OPTIONS = 'DENY'
+
+
+# Sites framework
+
+SITE_ID = 1

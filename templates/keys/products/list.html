@@ -1,16 +1,15 @@
 {% extends "generic_list.html" %}
 
-{% load bootstrap3 %}
 {% load nicebool %}
 {% load staticfiles %}
 
 {% block add_url %}{% url 'keys:product-add' %}{% endblock %}
 
 {% block custom_buttons_after %}
-	<button class="btn btn-default" onclick="loadFile('#id_keyfile');">{% bootstrap_icon "cloud-upload" %} Import XML file</button>
-	<a href="{% url 'keys:sku-add' %}" class="btn btn-default">{% bootstrap_icon 'plus' %} Add SKU</a>
-	<a href="{% url 'keys:allocate' %}" class="btn btn-default">{% bootstrap_icon 'user' %} Allocate</a>
-	<div class="hidden">
+	<a class="button" onclick="loadFile('#id_keyfile');">Import XML file</a>
+	<a href="{% url 'keys:sku-add' %}" class="button">Add SKU</a>
+	<a href="{% url 'keys:allocate' %}" class="button">Allocate</a>
+	<div style="display: none;">
 		<form id="key-form" action="{% url 'keys:upload' %}" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			<input id="id_keyfile" name="keyfile" accept="text/xml" onchange="submitFile('#key-form');" type="file" />
@@ -21,7 +20,7 @@
 
 {% block list %}
 <thead>
-	<th class="col-md-2">Product</th>
+	<th>Product</th>
 	<th>SKUs</th>
 	<th>Keys</th>
 	<th>Remaining</th>

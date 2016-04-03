@@ -29,6 +29,7 @@ class KeydistUser(AbstractBaseUser, PermissionsMixin):
     STUDENT = 2
 
     curtin_id = models.CharField(
+        'Curtin ID',
         max_length=20, blank=False, unique=True,
         validators=[validators.RegexValidator(
             regex=r'^[0-9]+[A-Z]?$',

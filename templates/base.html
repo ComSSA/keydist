@@ -5,116 +5,50 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block site_title %}Example{% endblock %} // theoffice - ComSSA Committee Portal</title>
+    <title>{% block site_title %}Example{% endblock %} - theoffice</title>
 
-    {% bootstrap_css %}
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <link rel="icon" type="image/png" href="{% static 'img/comssa_logo_128.png' %}" />
+    <link rel="icon" typ6e="image/png" href="{% static 'img/comssa_logo_128.png' %}" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="{% static 'css/milligram.min.css' %}">
 
     <!-- Page-specific CSS -->
     {% block custom_css %}
     {% endblock %}
 
-    {% if form %}
-        {{ form.media }}
-    {% endif %}
-
     <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
 </head>
 <body>
-<div id="wrap">
-    <div class="container">
-        <nav id="navbar" class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{% url 'home:index' %}">
-                        <span id="brand_text">the<strong>office</strong></span>
-                    </a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        {% if perms.keys.read_key %}
-                            <li><a href="{% url 'keys:product-list' %}">Microsoft Key Distribution</a></li>
-                        {% endif %}
-                        {% if perms.policy.read_policy %}
-                            <li><a href="{% url 'policy:list' %}">Policy Management</a></li>
-                        {% endif %}
-                        {% if user.is_staff %}
-                            <li><a href="{% url 'accounts:admin' %}">Admin</a></li>
-                        {% endif %}
-                    </ul>
-                    {% if user.is_authenticated %}
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a>{{ user.first_name }}</a>
-                            </li>
-                            <li>
-                                <a class="glyphicon glyphicon-cog" href="{% url 'accounts:cp' %}"></a>
-                            </li>
-                        </ul>
-                    {% else %}
-                        <form method="post" action="{% url 'accounts:login' %}" class="navbar-form navbar-right">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <input type="text" name="email" placeholder="Curtin ID" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="password" placeholder="Password" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-success">Sign in</button>
-                        </form>
-                    {% endif %}
-                </div><!--/.nav-collapse -->
-            </div><!--/.container-fluid -->
-        </nav>
-    </div>
-    
-    <div class="container">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="page-header">
-                <h1>{% block body_title %}Example{% endblock %}</h1>
-            </div>
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-                <hr />
-            {% endif %}
-            {% block content %}
-                <p>This needs to be changed.</p>
-            {% endblock %}
-        </div>
-    </div>
-    <div id="push"></div>
-</div>
+  <div id="wrap">
+    <h1 id="site-name">the<b>office</b></h1>
+    <hr />
+    <div id="nav">
+      {% if request.user.is_superuser %}
+        {% include "_nav_item.html" with item_url='keys:product-list' item_name='Keys' %}
+        {% include "_nav_item.html" with item_url='accounts:admin' item_name='Administration' %}
 
+        {% include "_nav_item.html" with item_url='logout' item_name='Log out' %}
+      {% endif %}
+      {% if not request.user.is_authenticated %}
+        {% include "_nav_item.html" with item_url='login' item_name='Log in' %}
+      {% endif %}
+    </div>
+    <hr />
+    <h2>{% block body_title %}{% endblock %}</h2>
+    {% block content %}
+    {% endblock %}
+    <hr />
     <div id="footer">
-        <div class="container" onmouseover="showCredits();" onmouseout="hideCredits();">
-            <p id="footer_credits" class="text-muted credit text-center">
-                theoffice &copy; 2014 <a href="https://comssa.org.au">ComSSA</a>. 
-                Made by <a href="http://github.com/kyerussell">Kye Russell</a>. 
-                <a href="https://github.com/comssa/keydist">Available on GitHub</a>.
-            </p>
-        </div>
+      <span>&copy; {% now 'Y' %} <a href="https://comssa.org.au">ComSSA</a>.
+        Available on <a href="https://github.com/comssa/theoffice">GitHub</a>.
+        Hacked together by <a href="http://kye.id.au">Kye</a>.
+      <span>
     </div>
-
-    <script src="{% bootstrap_jquery_url %}"></script>
-    {% bootstrap_javascript %}
-
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
     <!-- Page-specific Javascript -->
     {% block custom_js %}
     {% endblock %}
+  </div>
 </body>
 </html>

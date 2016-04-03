@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "policy/base.html" %}
 {% load bootstrap3 %}
 {% load name %}
 
@@ -11,10 +11,10 @@
 	the policy will be nullified. This amendment should be written to <strong>completely replace</strong> the
 	old revision, so any aspects of the policy that aren't changing should be <strong>included</strong> in
 	your new amendment.</p>
-	
+
 	<p>This new amendment will be marked as <i>submitted for committee approval</i>, and the currently enacted
 	revision will still be maintained in the databsae, even if/when this amendment is enacted.</p>
-	
+
 	<form action="{% url 'policy:amend' policy.id %}" method="post" class="form">
 		{% csrf_token %}
 			{% bootstrap_form form %}
